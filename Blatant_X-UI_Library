@@ -1199,6 +1199,7 @@ function library:AddWindow(title, options)
  
 						switch.Parent = new_tab
 						switch:FindFirstChild("Title").Text = switch_text
+						switch.Font = 'GothamBlack'
  
 						switch:FindFirstChild("Title").ZIndex = switch:FindFirstChild("Title").ZIndex + (windows * 10)
 						switch.ZIndex = switch.ZIndex + (windows * 10)
@@ -1216,13 +1217,13 @@ function library:AddWindow(title, options)
 						local toggled = false
 						switch.MouseButton1Click:Connect(function()
 							toggled = not toggled
-							switch.Text = toggled and '+' or ""
+							switch.Text = toggled and 'X' or ""
 							pcall(callback, toggled)
 						end)
  
 						function switch_data:Set(bool)
 							toggled = (typeof(bool) == "boolean") and bool or false
-							switch.Text = toggled and '+' or ""
+							switch.Text = toggled and 'X' or ""
 							pcall(callback,toggled)
 						end
  
