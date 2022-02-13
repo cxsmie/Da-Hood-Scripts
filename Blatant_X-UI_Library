@@ -1141,6 +1141,9 @@ function library:AddWindow(title, options)
 				do -- Tab Elements
  
 					function tab_data:AddLabel(label_text) -- [Label]
+					    
+					    local label_data = {}
+					    
 						label_text = tostring(label_text or "New Label")
  
 						local label = Prefabs:FindFirstChild("Label"):Clone()
@@ -1149,8 +1152,12 @@ function library:AddWindow(title, options)
 						label.Text = label_text
 						label.Size = UDim2.new(0, gNameLen(label), 0, 20)
 						label.ZIndex = label.ZIndex + (windows * 10)
+						
+						function label_data:Update(string)
+						    label.Text = string
+					    end
  
-						return label
+						return label_data, label
 					end
  
 					function tab_data:AddButton(button_text, callback) -- [Button]
@@ -1473,49 +1480,52 @@ function library:AddWindow(title, options)
 						    end
 				            
 						end
- 
+                        
 						function dropdown_data:Add(n)
-							local object_data = {}
-							n = tostring(n or "New Object")
- 
-							local object = Prefabs:FindFirstChild("DropdownButton"):Clone()
- 
-							object.Parent = objects
-							object.Text = n
-							object.ZIndex = object.ZIndex + (windows * 10)
- 
-							object.MouseEnter:Connect(function()
-								object.BackgroundColor3 = options.main_color
-							end)
-							object.MouseLeave:Connect(function()
-								object.BackgroundColor3 = Color3.fromRGB(33, 34, 36)
-							end)
- 
-							if open then
-								local len = (#objects:GetChildren() - 1) * 20
-								if #objects:GetChildren() - 1 >= 10 then
-									len = 10 * 20
-									objects.CanvasSize = UDim2.new(0, 0, (#objects:GetChildren() - 1) * 0.1, 0)
-								end
-								Resize(box, {Size = UDim2.new(1, 0, 0, len)}, options.tween_time)
-							end
- 
-							object.MouseButton1Click:Connect(function()
-								if dropdown_open then
-									dropdown.Text = "      [ " .. n .. " ]"
-									dropdown_open = false
-									open = false
-									Resize(box, {Size = UDim2.new(1, 0, 0, 0)}, options.tween_time)
-									Resize(indicator, {Rotation = -90}, options.tween_time)
-									pcall(callback, n)
-								end
-							end)
- 
-							function object_data:Remove()
-								object:Destroy()
-							end
- 
-							return object, object_data
+						    pcall(function()
+    							local object_data = {}
+    							n = tostring(n or "New Object")
+     
+    							local object = Prefabs:FindFirstChild("DropdownButton"):Clone()
+     
+    							object.Parent = objects
+    							object.Text = n
+    							object.ZIndex = object.ZIndex + (windows * 10)
+     
+    							object.MouseEnter:Connect(function()
+    								object.BackgroundColor3 = options.main_color
+    							end)
+    							object.MouseLeave:Connect(function()
+    								object.BackgroundColor3 = Color3.fromRGB(33, 34, 36)
+    							end)
+     
+    							if open then
+    								local len = (#objects:GetChildren() - 1) * 20
+    								if #objects:GetChildren() - 1 >= 10 then
+    									len = 10 * 20
+    									objects.CanvasSize = UDim2.new(0, 0, (#objects:GetChildren() - 1) * 0.1, 0)
+    								end
+    								Resize(box, {Size = UDim2.new(1, 0, 0, len)}, options.tween_time)
+    							end
+     
+    							object.MouseButton1Click:Connect(function()
+    								if dropdown_open then
+    									dropdown.Text = "      [ " .. n .. " ]"
+    									dropdown_open = false
+    									open = false
+    									Resize(box, {Size = UDim2.new(1, 0, 0, 0)}, options.tween_time)
+    									Resize(indicator, {Rotation = -90}, options.tween_time)
+    									pcall(callback, n)
+    								end
+    							end)
+     
+    							function object_data:Remove()
+    								object:Destroy()
+    							end
+     
+    							return object, object_data
+						    end)
+							
 						end
  
 						return dropdown_data, dropdown
