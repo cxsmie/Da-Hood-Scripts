@@ -1199,7 +1199,6 @@ function library:AddWindow(title, options)
  
 						switch.Parent = new_tab
 						switch:FindFirstChild("Title").Text = switch_text
-						switch.Font = 'GothamBlack'
  
 						switch:FindFirstChild("Title").ZIndex = switch:FindFirstChild("Title").ZIndex + (windows * 10)
 						switch.ZIndex = switch.ZIndex + (windows * 10)
