@@ -5,13 +5,10 @@ local ui_options = {
 	can_resize = true,
 }
  
-spawn(function()
-	local blatant_x = game:GetService('CoreGui'):FindFirstChild('blatant_x')
-	
-	if blatant_x then
-	    blatant_x:Destroy()
-    end
-end)
+do
+	local blatant_x = game:GetService("CoreGui"):FindFirstChild("blatant_x")
+	if blatant_x then blatant_x:Destroy() end
+end
  
 local blatant_x = Instance.new("ScreenGui")
 local Prefabs = Instance.new("Frame")
@@ -1467,6 +1464,15 @@ function library:AddWindow(title, options)
 							end
  
 						end)
+						
+						function dropdown_data:Remove(n)
+						    for i, v in pairs(objects:GetChildren()) do
+						        if v:IsA('TextButton') and v.Text == n then
+						            v:Destroy()
+						        end
+						    end
+				            
+						end
  
 						function dropdown_data:Add(n)
 							local object_data = {}
@@ -1511,15 +1517,6 @@ function library:AddWindow(title, options)
  
 							return object, object_data
 						end
-						
-						function dropdown_data:Remove(n)
-						    for i, v in pairs(objects:GetChildren()) do
-						        if v:IsA('TextButton') and v.Text == n then
-						            v:Destroy()
-						        end
-						    end
-						end
-						    
  
 						return dropdown_data, dropdown
 					end
