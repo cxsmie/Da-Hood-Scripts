@@ -100,9 +100,8 @@ Label.Size = UDim2.new(1, 0, 0, 20)
 Label.Font = Enum.Font.GothamSemibold
 Label.Text = "Hello, world 123"
 Label.TextColor3 = Color3.new(1, 1, 1)
-Label.TextXAlignment = 'Center'
 Label.TextSize = 14
-Label.TextXAlignment = Enum.TextXAlignment.Left
+Label.TextXAlignment = Enum.TextXAlignment.Center
  
 Window.Name = "Window"
 Window.Parent = Prefabs
@@ -1170,7 +1169,6 @@ function library:AddWindow(title, options)
  
 						button.Parent = new_tab
 						button.Text = button_text
-						button.Size = UDim2.new(0, gNameLen(button), 0, 20)
 						button.ZIndex = button.ZIndex + (windows * 10)
 						button:GetChildren()[1].ZIndex = button:GetChildren()[1].ZIndex + (windows * 10)
  
