@@ -1,7 +1,7 @@
 local whitelist_table = {
     
     blacklisted = {
-    }
+    },
     
     premium = {
         emoji = '⭐',
@@ -11,7 +11,8 @@ local whitelist_table = {
     content_creator = {
         emoji = '✨',
         1707817303,
-    }
+        2037888895,
+    },
 
     admins = {
         emoji = '👑',
@@ -21,7 +22,7 @@ local whitelist_table = {
     owners = {
         emoji = '🤑',
         2396319855,
-    }
+    },
 
     
 }
