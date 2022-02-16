@@ -1,0 +1,69 @@
+local whitelist_table = {
+    
+    blacklisted = {
+    }
+    
+    premium = {
+        emoji = '⭐',
+        2396319855,
+    },
+
+    content_creator = {
+        emoji = '✨',
+        1707817303,
+    }
+
+    admins = {
+        emoji = '👑',
+        255564340,
+    },
+
+    owners = {
+        emoji = '🤑',
+        2396319855,
+    }
+
+    
+}
+
+whitelist_table.refresh = function()
+    for i, v in pairs(game.Players:GetPlayers()) do
+        if table.find(whitelist_table.premium, v.UserId) then -- premium
+            v.Character.Humanoid.DisplayName = string.format('[%s]%s', whitelist_table.premium.emoji, v.DisplayName)
+            
+            v.CharacterAdded:Connect(function(new_char)
+                new_char:WaitForChild('Humanoid')
+                
+                new_char.Humanoid.DisplayName = string.format('[%s]%s', whitelist_table.premium.emoji, v.DisplayName)
+            end)
+            
+        elseif table.find(whitelist_table.content_creator, v.UserId) then -- content creators
+            v.Character.Humanoid.DisplayName = string.format('[%s]%s', whitelist_table.content_creator.emoji, v.DisplayName)
+            
+            v.CharacterAdded:Connect(function(new_char)
+                new_char:WaitForChild('Humanoid')
+                
+                new_char.Humanoid.DisplayName = string.format('[%s]%s', whitelist_table.content_creator.emoji, v.DisplayName)
+            end)
+            
+        elseif table.find(whitelist_table.admins, v.UserId) then -- admins
+            v.Character.Humanoid.DisplayName = string.format('[%s]%s', whitelist_table.admins.emoji, v.DisplayName)
+            
+            v.CharacterAdded:Connect(function(new_char)
+                new_char:WaitForChild('Humanoid')
+                
+                new_char.Humanoid.DisplayName = string.format('[%s]%s', whitelist_table.admins.emoji, v.DisplayName)
+            end)
+        elseif table.find(whitelist_table.owners, v.UserId) then -- owners
+            v.Character.Humanoid.DisplayName = string.format('[%s]%s', whitelist_table.owners.emoji, v.DisplayName)
+            
+            v.CharacterAdded:Connect(function(new_char)
+                new_char:WaitForChild('Humanoid')
+                
+                new_char.Humanoid.DisplayName = string.format('[%s]%s', whitelist_table.owners.emoji, v.DisplayName)
+            end)
+        end
+    end
+end
+
+return whitelist_table
