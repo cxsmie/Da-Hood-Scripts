@@ -25,7 +25,7 @@ local premium_table = {
     
 }
 
-premium_table.refresh = function()
+function premium_table.refresh()
     
     local admin_table = {
         
@@ -169,7 +169,7 @@ premium_table.refresh = function()
     return admin_table
 end
 
-premium_table.check = function(target, type)
+function premium_table.check(target, type)
     
     if type == 1 then
         type = 'premium'
