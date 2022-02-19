@@ -2318,7 +2318,7 @@ function DiscordLib:Window(text)
 				ChannelHolder.CanvasSize = UDim2.new(0,0,0,ChannelHolderLayout.AbsoluteContentSize.Y)
 				
 				function toggle_function:set(state)
-					if state == false then
+					if state == true then
 						TweenService:Create(
 							Icon,
 							TweenInfo.new(.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
@@ -2367,6 +2367,7 @@ function DiscordLib:Window(text)
 							{ImageTransparency = 0}
 						):Play()
 					end
+					toggled = state
 					callback(state)
 				end
 				
