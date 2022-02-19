@@ -10,6 +10,14 @@ local user
 local tag
 local userinfo = {}
 
+function DiscordLib:darken(colour, rate)
+	local h, s, v = colour:ToHSV()
+	
+	v = math.clamp(v - rate, 0, 1)
+	
+	return Color3.fromHSV(h, s, v)
+end
+
 pcall(function()
 	userinfo = HttpService:JSONDecode(readfile("discordlibinfo.txt"));
 end)
@@ -846,7 +854,7 @@ function DiscordLib:Window(text)
 			TweenService:Create(
 				ChangeBtn,
 				TweenInfo.new(.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
-				{BackgroundColor3 = Color3.fromRGB(103,123,196)}
+				{BackgroundColor3 = DiscordLib:darken(getgenv().blatant_config.theme_colour, .2)}
 			):Play()
 		end)
 
@@ -1346,7 +1354,7 @@ function DiscordLib:Window(text)
 			TweenService:Create(
 				ChangeBtn,
 				TweenInfo.new(.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
-				{BackgroundColor3 = Color3.fromRGB(103,123,196)}
+				{BackgroundColor3 = DiscordLib:darken(getgenv().blatant_config.theme_colour, .2)}
 			):Play()
 		end)
 		
@@ -1647,7 +1655,7 @@ function DiscordLib:Window(text)
 			TweenService:Create(
 				AlrightBtn,
 				TweenInfo.new(.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
-				{BackgroundColor3 = Color3.fromRGB(103,123,196)}
+				{BackgroundColor3 = DiscordLib:darken(getgenv().blatant_config.theme_colour, .2)}
 			):Play()
 		end)
 
@@ -2155,7 +2163,7 @@ function DiscordLib:Window(text)
 					TweenService:Create(
 						Button,
 						TweenInfo.new(.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
-						{BackgroundColor3 = Color3.fromRGB(103,123,196)}
+						{BackgroundColor3 = DiscordLib:darken(getgenv().blatant_config.theme_colour, .2)}
 					):Play()
 				end)
 				
