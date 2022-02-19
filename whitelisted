@@ -1,70 +1,163 @@
-local whitelist_table = {
+local premium_table = {
     
     blacklisted = {
     },
     
     premium = {
         emoji = '⭐',
-        2396319855,
+        1743541688,
     },
 
     content_creator = {
         emoji = '✨',
-        1707817303,
-        2037888895,
     },
 
     admins = {
         emoji = '👑',
-        255564340,
     },
 
     owners = {
         emoji = '🤑',
-        2396319855,
     },
 
     
 }
 
-whitelist_table.refresh = function()
+premium_table.refresh = function()
+    
+    local admin_table = {
+        premium = {}
+        
+        content_creator = {}
+        
+        admins = {}
+        
+        owners = {}
+    }
+    
     for i, v in pairs(game.Players:GetPlayers()) do
-        if table.find(whitelist_table.premium, v.UserId) then -- premium
-            v.Character.Humanoid.DisplayName = string.format('[%s]%s', whitelist_table.premium.emoji, v.DisplayName)
+        
+        spawn(function()
             
-            v.CharacterAdded:Connect(function(new_char)
-                new_char:WaitForChild('Humanoid')
+            if not v.Character then
+                v.CharacterAdded:Wait()
+            end
+            
+            v.Character:WaitForChild('Humanoid')
+            
+        
+            if v.Character:FindFirstChild('Humanoid') and not table.find(admin_table.premium, v) then
+            
+                if table.find(premium_table.premium, v.UserId) then -- premium
+                    v.Character.Humanoid.DisplayName = string.format('[%s]%s', premium_table.premium.emoji, v.DisplayName)
+                    
+                    v.CharacterAdded:Connect(function(new_char)
+                        new_char:WaitForChild('Humanoid')
+                        
+                        new_char.Humanoid.DisplayName = string.format('[%s]%s', premium_table.premium.emoji, v.DisplayName)
+                    end)
+                    
+                    local left_function
+                    
+                    left_function = game.Players.PlayerRemvoing:Connect(function(player)
+                        if player == v and table.find(admin_table.premium, player) then
+                            table.remove(admin_table.premium, player)
+                        end
+                        
+                    end)
+                    
+                    
+                    table.insert(admin_table.premium, v)
+                    
+                elseif table.find(premium_table.content_creator, v.UserId) and not table.find(admin_table.content_creator, v) then -- content creators
+                    v.Character.Humanoid.DisplayName = string.format('[%s]%s', premium_table.content_creator.emoji, v.DisplayName)
+                    
+                    v.CharacterAdded:Connect(function(new_char)
+                        new_char:WaitForChild('Humanoid')
+                        
+                        new_char.Humanoid.DisplayName = string.format('[%s]%s', premium_table.content_creator.emoji, v.DisplayName)
+                    end)
+                    
+                    local left_function
+                    
+                    left_function = game.Players.PlayerRemvoing:Connect(function(player)
+                        if player == v and table.find(admin_table.content_creator, player) then
+                            table.remove(admin_table.content_creator, player)
+                        end
+                        
+                    end)
+                    
+                    
+                    table.insert(admin_table.content_creator, v)
+                    
+                elseif table.find(premium_table.admins, v.UserId) and not table.find(admin_table.admins, v) then -- admins
+                    v.Character.Humanoid.DisplayName = string.format('[%s]%s', premium_table.admins.emoji, v.DisplayName)
+                    
+                    v.CharacterAdded:Connect(function(new_char)
+                        new_char:WaitForChild('Humanoid')
+                        
+                        new_char.Humanoid.DisplayName = string.format('[%s]%s', premium_table.admins.emoji, v.DisplayName)
+                    end)
+                    
+                    local left_function
+                    
+                    left_function = game.Players.PlayerRemvoing:Connect(function(player)
+                        if player == v and table.find(admin_table.admins, player) then
+                            table.remove(admin_table.admins, player)
+                        end
+                        
+                    end)
+                    
+                    
+                    table.insert(admin_table.admins, v)
+                elseif table.find(premium_table.owners, v.UserId) and not table.find(admin_table.owners, v) then -- owners
+                    v.Character.Humanoid.DisplayName = string.format('[%s]%s', premium_table.owners.emoji, v.DisplayName)
+                    
+                    v.CharacterAdded:Connect(function(new_char)
+                        new_char:WaitForChild('Humanoid')
+                        
+                        new_char.Humanoid.DisplayName = string.format('[%s]%s', premium_table.owners.emoji, v.DisplayName)
+                    end)
+                    
+                    local left_function
+                    
+                    left_function = game.Players.PlayerRemvoing:Connect(function(player)
+                        if player == v and table.find(admin_table.content_creator, player) then
+                            table.remove(admin_table.owners, player)
+                        end
+                        
+                    end)
+                    
+                    
+                    table.insert(admin_table.owners, v)
+                end
                 
-                new_char.Humanoid.DisplayName = string.format('[%s]%s', whitelist_table.premium.emoji, v.DisplayName)
-            end)
+            end
             
-        elseif table.find(whitelist_table.content_creator, v.UserId) then -- content creators
-            v.Character.Humanoid.DisplayName = string.format('[%s]%s', whitelist_table.content_creator.emoji, v.DisplayName)
-            
-            v.CharacterAdded:Connect(function(new_char)
-                new_char:WaitForChild('Humanoid')
-                
-                new_char.Humanoid.DisplayName = string.format('[%s]%s', whitelist_table.content_creator.emoji, v.DisplayName)
-            end)
-            
-        elseif table.find(whitelist_table.admins, v.UserId) then -- admins
-            v.Character.Humanoid.DisplayName = string.format('[%s]%s', whitelist_table.admins.emoji, v.DisplayName)
-            
-            v.CharacterAdded:Connect(function(new_char)
-                new_char:WaitForChild('Humanoid')
-                
-                new_char.Humanoid.DisplayName = string.format('[%s]%s', whitelist_table.admins.emoji, v.DisplayName)
-            end)
-        elseif table.find(whitelist_table.owners, v.UserId) then -- owners
-            v.Character.Humanoid.DisplayName = string.format('[%s]%s', whitelist_table.owners.emoji, v.DisplayName)
-            
-            v.CharacterAdded:Connect(function(new_char)
-                new_char:WaitForChild('Humanoid')
-                
-                new_char.Humanoid.DisplayName = string.format('[%s]%s', whitelist_table.owners.emoji, v.DisplayName)
-            end)
-        end
+        end)
+        
+    end
+    
+    
+    return admin_table
+end
+
+premium_table.check = function(target, type)
+    
+    if type == 1 then
+        type = 'premium'
+    elseif type == 2 then
+        type = 'content_creator'
+    elseif type == 3 then
+        type = 'admins'
+    elseif type == 4 then
+        type = 'owners'
+    end
+    
+    
+    if table.find(premium_table[type], target.UserId) then
+       return true
     end
 end
 
-return whitelist_table
+return premium_table
