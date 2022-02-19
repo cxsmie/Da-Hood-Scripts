@@ -2197,7 +2197,7 @@ function DiscordLib:Window(text)
 			    
 			    local toggle_function = {}
 			    
-				local toggled = false
+				local toggled = default
 				local Toggle = Instance.new("TextButton")
 				local ToggleTitle = Instance.new("TextLabel")
 				local ToggleFrame = Instance.new("Frame")
@@ -2262,7 +2262,10 @@ function DiscordLib:Window(text)
 				Icon.ImageColor3 = Color3.fromRGB(114, 118, 125)
 				
 				Toggle.MouseButton1Click:Connect(function()
-					if toggled == false then
+					toggled = not toggled
+					callback(toggled)
+					
+					if toggled == true then
 						TweenService:Create(
 							Icon,
 							TweenInfo.new(.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
@@ -2311,8 +2314,6 @@ function DiscordLib:Window(text)
 							{ImageTransparency = 0}
 						):Play()
 					end
-					toggled = not toggled
-					callback(toggled)
 				end)
 				
 				ChannelHolder.CanvasSize = UDim2.new(0,0,0,ChannelHolderLayout.AbsoluteContentSize.Y)
@@ -2901,6 +2902,31 @@ function DiscordLib:Window(text)
 						ChannelHolder.CanvasSize = UDim2.new(0,0,0,ChannelHolderLayout.AbsoluteContentSize.Y)
 						DropTog = not DropTog
 					end)
+
+					DropItemHolder.CanvasSize = UDim2.new(0,0,0,DropItemHolderLayout.AbsoluteContentSize.Y)
+
+					DropItemHolder.Size = UDim2.new(0, 385, 0, framesize)
+					DropdownFrameMain.Size = UDim2.new(0, 392, 0, framesize + 6)
+					DropdownFrameMainOutline.Size = UDim2.new(0, 396, 0, framesize + 10)
+				end
+				
+				function DropFunc:Remove(requested)
+					itemcount = itemcount - 1
+
+					if itemcount == 1 then
+						framesize = 29
+					elseif itemcount == 2 then
+						framesize = 58
+					elseif itemcount >= 3 then
+						framesize = 87
+					end
+					
+					for i, v in pairs(DropItemHolder:GetChildren()) do
+					    if v:FindFirstChild('ItemText').Text == requested then
+					        v:Destroy()
+					    end
+				        
+                    end
 
 					DropItemHolder.CanvasSize = UDim2.new(0,0,0,DropItemHolderLayout.AbsoluteContentSize.Y)
 
