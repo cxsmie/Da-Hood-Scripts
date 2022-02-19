@@ -2314,13 +2314,13 @@ function DiscordLib:Window(text)
 				end
 				
 				if default == true then
-					callback(toggled)
+					spawn(function() callback(toggled) end)
 					clicked(toggled)
 				end
 				
 				Toggle.MouseButton1Click:Connect(function()
 					toggled = not toggled
-					callback(toggled)
+					spawn(function() callback(toggled) end)
 					clicked(toggled)
 				end)
 				
@@ -2329,7 +2329,7 @@ function DiscordLib:Window(text)
 				ChannelHolder.CanvasSize = UDim2.new(0,0,0,ChannelHolderLayout.AbsoluteContentSize.Y)
 				
 				function toggle_function:set(state)
-					callback(state)
+					spawn(function() callback(state) end)
 					toggled = state
 					clicked(state)
 				end
