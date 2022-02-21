@@ -3294,7 +3294,7 @@ function DiscordLib:Window(text)
 				local Keybind = Instance.new("TextButton")
 				local KeybindTitle = Instance.new("TextLabel")
 				local KeybindText = Instance.new("TextLabel")
-				local ButtonCorner = Instance.new('UICorner')
+				local BindCorner = Instance.new('UICorner')
 				local LabelCorner = Instance.new('UICorner')
 
 				Keybind.Name = "Keybind"
@@ -3311,7 +3311,7 @@ function DiscordLib:Window(text)
 				
 				BindCorner.CornerRadius = UDim.new(0, 4)
 				BindCorner.Name = "BindCorner"
-				BindCorner.Parent = Button
+				BindCorner.Parent = Keybind
 
 				KeybindTitle.Name = "KeybindTitle"
 				KeybindTitle.Parent = Keybind
@@ -3338,8 +3338,8 @@ function DiscordLib:Window(text)
 				KeybindText.TextXAlignment = Enum.TextXAlignment.Center
 				
 				LabelCorner.CornerRadius = UDim.new(0, 4)
-				LabelCorner.Name = "ButtonCorner"
-				LabelCorner.Parent = Button
+				LabelCorner.Name = "LabelCorner"
+				LabelCorner.Parent = KeybindText
 				
 				Keybind.MouseEnter:Connect(function()
 					TweenService:Create(Keybind, TweenInfo.new(.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {BackgroundColor3 = DiscordLib:darken(getgenv().blatant_config.theme_colour, .2)}):Play()
