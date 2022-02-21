@@ -2324,6 +2324,7 @@ function DiscordLib:Window(text)
 				if default == true then
 					spawn(function() callback(true) end)
 					clicked(true)
+					toggled = true
 				end
 				
 				Toggle.MouseButton1Click:Connect(function()
@@ -2341,6 +2342,16 @@ function DiscordLib:Window(text)
 					toggled = state
 					clicked(state)
 					
+				end
+				
+				function toggle_function:request_state()
+				   if toggled == true then
+				       return true
+				    else
+				        return false
+				        
+				   end
+			        
 				end
 				
 				return toggle_function, toggled
