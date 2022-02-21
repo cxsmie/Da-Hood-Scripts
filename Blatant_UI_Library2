@@ -3294,10 +3294,12 @@ function DiscordLib:Window(text)
 				local Keybind = Instance.new("TextButton")
 				local KeybindTitle = Instance.new("TextLabel")
 				local KeybindText = Instance.new("TextLabel")
+				local ButtonCorner = Instance.new('UICorner')
+				local LabelCorner = Instance.new('UICorner')
 
 				Keybind.Name = "Keybind"
 				Keybind.Parent = ChannelHolder
-				Keybind.BackgroundColor3 = Color3.fromRGB(54, 57, 63)
+				Keybind.BackgroundColor3 = getgenv().blatant_config.theme_colour
 				Keybind.BorderSizePixel = 0
 				Keybind.Position = UDim2.new(0.261979163, 0, 0.190789461, 0)
 				Keybind.Size = UDim2.new(0, 401, 0, 30)
@@ -3306,6 +3308,10 @@ function DiscordLib:Window(text)
 				Keybind.Text = ""
 				Keybind.TextColor3 = Color3.fromRGB(255, 255, 255)
 				Keybind.TextSize = 14.000
+				
+				BindCorner.CornerRadius = UDim.new(0, 4)
+				BindCorner.Name = "BindCorner"
+				BindCorner.Parent = Button
 
 				KeybindTitle.Name = "KeybindTitle"
 				KeybindTitle.Parent = Keybind
@@ -3315,21 +3321,36 @@ function DiscordLib:Window(text)
 				KeybindTitle.Size = UDim2.new(0, 200, 0, 30)
 				KeybindTitle.Font = Enum.Font.Gotham
 				KeybindTitle.Text = text
-				KeybindTitle.TextColor3 = Color3.fromRGB(127, 131, 137)
+				KeybindTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
 				KeybindTitle.TextSize = 14.000
 				KeybindTitle.TextXAlignment = Enum.TextXAlignment.Left
 
 				KeybindText.Name = "KeybindText"
 				KeybindText.Parent = Keybind
-				KeybindText.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-				KeybindText.BackgroundTransparency = 1.000
-				KeybindText.Position = UDim2.new(0, 316, 0, 0)
-				KeybindText.Size = UDim2.new(0, 85, 0, 30)
+				KeybindText.BackgroundColor3 = DiscordLib:darken(getgenv().blatant_config.theme_colour, .2)
+				KeybindText.BackgroundTransparency = 0
+				KeybindText.Position = UDim2.new(0, 300, 0, 5)
+				KeybindText.Size = UDim2.new(0, 85, 0, 20)
 				KeybindText.Font = Enum.Font.Gotham
 				KeybindText.Text = presetbind.Name
-				KeybindText.TextColor3 = Color3.fromRGB(127, 131, 137)
+				KeybindText.TextColor3 = Color3.fromRGB(200, 200, 200)
 				KeybindText.TextSize = 14.000
-				KeybindText.TextXAlignment = Enum.TextXAlignment.Right
+				KeybindText.TextXAlignment = Enum.TextXAlignment.Center
+				
+				LabelCorner.CornerRadius = UDim.new(0, 4)
+				LabelCorner.Name = "ButtonCorner"
+				LabelCorner.Parent = Button
+				
+				Keybind.MouseEnter:Connect(function()
+					TweenService:Create(Keybind, TweenInfo.new(.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {BackgroundColor3 = DiscordLib:darken(getgenv().blatant_config.theme_colour, .2)}):Play()
+					TweenService:Create(KeybindText, TweenInfo.new(.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {BackgroundColor3 = DiscordLib:darken(KeybindText.BackgroundColor3, .2)}):Play()
+				end)
+				
+				
+				Keybind.MouseLeave:Connect(function()
+					TweenService:Create(Keybind, TweenInfo.new(.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {BackgroundColor3 = getgenv().blatant_config.theme_colour}):Play()
+					TweenService:Create(KeybindText, TweenInfo.new(.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {BackgroundColor3 = DiscordLib:darken(getgenv().blatant_config.theme_colour, .2)}):Play()
+				end)
 				
 				Keybind.MouseButton1Click:Connect(function()
 					KeybindText.Text = '...'
