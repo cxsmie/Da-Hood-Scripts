@@ -2168,7 +2168,7 @@ function DiscordLib:Window(text)
 				end)
 				
 				Button.MouseButton1Click:Connect(function()
-					callback()
+					spawn(callback)
 					Button.TextSize = 0
 					TweenService:Create(
 						Button,
@@ -2186,9 +2186,9 @@ function DiscordLib:Window(text)
 				end)
 				ChannelHolder.CanvasSize = UDim2.new(0,0,0,ChannelHolderLayout.AbsoluteContentSize.Y)
 				
-				function button_functions:click(state)
-                    callback()
-                    if state == true then
+				function button_functions:click(animation)
+                    spawn(callback)
+                    if animation == true then
     					Button.TextSize = 0
     					TweenService:Create(
     						Button,
@@ -3332,23 +3332,16 @@ function DiscordLib:Window(text)
 				KeybindText.TextXAlignment = Enum.TextXAlignment.Right
 				
 				Keybind.MouseButton1Click:Connect(function()
-					KeybindText.Text = "..."
-					local inputwait = game:GetService("UserInputService").InputBegan:wait()
-					if inputwait.KeyCode.Name ~= "Unknown" then
-						KeybindText.Text = inputwait.KeyCode.Name
-						Key = inputwait.KeyCode.Name
+					KeybindText.Text = '...'
+					local input_wait = game:GetService("UserInputService").InputBegan:wait()
+					if input_wait.KeyCode.Name ~= "Unknown" then
+						KeybindText.Text = input_wait.KeyCode.Name
+						Key = input_wait.KeyCode.Name
+						callback(input_wait.KeyCode)
 					end
 				end)
 				
-				game:GetService("UserInputService").InputBegan:connect(
-				function(current, pressed)
-					if not pressed then
-						if current.KeyCode.Name == Key then
-							callback()
-						end
-					end
-				end
-				)
+
 				ChannelHolder.CanvasSize = UDim2.new(0,0,0,ChannelHolderLayout.AbsoluteContentSize.Y)
 			end
 			
