@@ -841,7 +841,7 @@ function DiscordLib:Window(text)
 
 		ChangeBtn.Name = "ChangeBtn"
 		ChangeBtn.Parent = AvatarChange
-		ChangeBtn.BackgroundColor3 = getgenv().blatant_config.theme_colour
+		ChangeBtn.BackgroundColor3 = getgenv().celestial_config.theme_colour
 		ChangeBtn.Position = UDim2.new(0.749670506, 0, 0.823232353, 0)
 		ChangeBtn.Size = UDim2.new(0, 76, 0, 27)
 		ChangeBtn.Font = Enum.Font.Gotham
@@ -854,7 +854,7 @@ function DiscordLib:Window(text)
 			TweenService:Create(
 				ChangeBtn,
 				TweenInfo.new(.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
-				{BackgroundColor3 = DiscordLib:darken(getgenv().blatant_config.theme_colour, .2)}
+				{BackgroundColor3 = DiscordLib:darken(getgenv().celestial_config.theme_colour, .2)}
 			):Play()
 		end)
 
@@ -862,7 +862,7 @@ function DiscordLib:Window(text)
 			TweenService:Create(
 				ChangeBtn,
 				TweenInfo.new(.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
-				{BackgroundColor3 = getgenv().blatant_config.theme_colour}
+				{BackgroundColor3 = getgenv().celestial_config.theme_colour}
 			):Play()
 		end)
 
@@ -915,7 +915,7 @@ function DiscordLib:Window(text)
 
 		CloseBtn1.Name = "CloseBtn1"
 		CloseBtn1.Parent = AvatarChange
-		CloseBtn1.BackgroundColor3 = getgenv().blatant_config.theme_colour
+		CloseBtn1.BackgroundColor3 = getgenv().celestial_config.theme_colour
 		CloseBtn1.BackgroundTransparency = 1.000
 		CloseBtn1.Position = UDim2.new(0.495000005, 0, 0.823000014, 0)
 		CloseBtn1.Size = UDim2.new(0, 76, 0, 27)
@@ -930,7 +930,7 @@ function DiscordLib:Window(text)
 
 		ResetBtn.Name = "ResetBtn"
 		ResetBtn.Parent = AvatarChange
-		ResetBtn.BackgroundColor3 = getgenv().blatant_config.theme_colour
+		ResetBtn.BackgroundColor3 = getgenv().celestial_config.theme_colour
 		ResetBtn.BackgroundTransparency = 1.000
 		ResetBtn.Position = UDim2.new(0.260895967, 0, 0.823000014, 0)
 		ResetBtn.Size = UDim2.new(0, 76, 0, 27)
@@ -1017,7 +1017,7 @@ function DiscordLib:Window(text)
 			TweenService:Create(
 				TextBoxFrame,
 				TweenInfo.new(.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
-				{BackgroundColor3 = getgenv().blatant_config.theme_colour}
+				{BackgroundColor3 = getgenv().celestial_config.theme_colour}
 			):Play()
 		end)
 
@@ -1341,7 +1341,7 @@ function DiscordLib:Window(text)
 
 		ChangeBtn.Name = "ChangeBtn"
 		ChangeBtn.Parent = UserChange
-		ChangeBtn.BackgroundColor3 = getgenv().blatant_config.theme_colour
+		ChangeBtn.BackgroundColor3 = getgenv().celestial_config.theme_colour
 		ChangeBtn.Position = UDim2.new(0.749670506, 0, 0.823232353, 0)
 		ChangeBtn.Size = UDim2.new(0, 76, 0, 27)
 		ChangeBtn.Font = Enum.Font.Gotham
@@ -1354,7 +1354,7 @@ function DiscordLib:Window(text)
 			TweenService:Create(
 				ChangeBtn,
 				TweenInfo.new(.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
-				{BackgroundColor3 = DiscordLib:darken(getgenv().blatant_config.theme_colour, .2)}
+				{BackgroundColor3 = DiscordLib:darken(getgenv().celestial_config.theme_colour, .2)}
 			):Play()
 		end)
 		
@@ -1362,7 +1362,7 @@ function DiscordLib:Window(text)
 			TweenService:Create(
 				ChangeBtn,
 				TweenInfo.new(.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
-				{BackgroundColor3 = getgenv().blatant_config.theme_colour}
+				{BackgroundColor3 = getgenv().celestial_config.theme_colour}
 			):Play()
 		end)
 		
@@ -1420,7 +1420,7 @@ function DiscordLib:Window(text)
 
 		CloseBtn1.Name = "CloseBtn1"
 		CloseBtn1.Parent = UserChange
-		CloseBtn1.BackgroundColor3 = getgenv().blatant_config.theme_colour
+		CloseBtn1.BackgroundColor3 = getgenv().celestial_config.theme_colour
 		CloseBtn1.BackgroundTransparency = 1.000
 		CloseBtn1.Position = UDim2.new(0.495000005, 0, 0.823000014, 0)
 		CloseBtn1.Size = UDim2.new(0, 76, 0, 27)
@@ -1497,7 +1497,7 @@ function DiscordLib:Window(text)
 			TweenService:Create(
 				TextBoxFrame,
 				TweenInfo.new(.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
-				{BackgroundColor3 = getgenv().blatant_config.theme_colour}
+				{BackgroundColor3 = getgenv().celestial_config.theme_colour}
 			):Play()
 		end)
 		
@@ -1513,7 +1513,7 @@ function DiscordLib:Window(text)
 			TweenService:Create(
 				TextBoxFrame,
 				TweenInfo.new(.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
-				{BackgroundColor3 = getgenv().blatant_config.theme_colour}
+				{BackgroundColor3 = getgenv().celestial_config.theme_colour}
 			):Play()
 		end)
 
@@ -1621,7 +1621,7 @@ function DiscordLib:Window(text)
 
 		AlrightBtn.Name = "AlrightBtn"
 		AlrightBtn.Parent = Notification
-		AlrightBtn.BackgroundColor3 = getgenv().blatant_config.theme_colour
+		AlrightBtn.BackgroundColor3 = getgenv().celestial_config.theme_colour
 		AlrightBtn.Position = UDim2.new(0.0332369953, 0, 0.789141417, 0)
 		AlrightBtn.Size = UDim2.new(0, 322, 0, 27)
 		AlrightBtn.Font = Enum.Font.Gotham
@@ -1655,7 +1655,7 @@ function DiscordLib:Window(text)
 			TweenService:Create(
 				AlrightBtn,
 				TweenInfo.new(.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
-				{BackgroundColor3 = DiscordLib:darken(getgenv().blatant_config.theme_colour, .2)}
+				{BackgroundColor3 = DiscordLib:darken(getgenv().celestial_config.theme_colour, .2)}
 			):Play()
 		end)
 
@@ -1663,7 +1663,7 @@ function DiscordLib:Window(text)
 			TweenService:Create(
 				AlrightBtn,
 				TweenInfo.new(.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
-				{BackgroundColor3 = getgenv().blatant_config.theme_colour}
+				{BackgroundColor3 = getgenv().celestial_config.theme_colour}
 			):Play()
 		end)
 	end
@@ -1902,7 +1902,7 @@ function DiscordLib:Window(text)
 					TweenService:Create(
 						Server,
 						TweenInfo.new(.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
-						{BackgroundColor3 = getgenv().blatant_config.theme_colour}
+						{BackgroundColor3 = getgenv().celestial_config.theme_colour}
 					):Play()
 					TweenService:Create(
 						ServerBtnCorner,
@@ -1963,7 +1963,7 @@ function DiscordLib:Window(text)
 						TweenService:Create(
 							Server,
 							TweenInfo.new(.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
-							{BackgroundColor3 = getgenv().blatant_config.theme_colour}
+							{BackgroundColor3 = getgenv().celestial_config.theme_colour}
 						):Play()
 						TweenService:Create(
 							v.ServerCorner,
@@ -2004,7 +2004,7 @@ function DiscordLib:Window(text)
 			TweenService:Create(
 				Server,
 				TweenInfo.new(.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
-				{BackgroundColor3 = getgenv().blatant_config.theme_colour}
+				{BackgroundColor3 = getgenv().celestial_config.theme_colour}
 			):Play()
 			TweenService:Create(
 				ServerBtnCorner,
@@ -2147,7 +2147,7 @@ function DiscordLib:Window(text)
 
 				Button.Name = "Button"
 				Button.Parent = ChannelHolder
-				Button.BackgroundColor3 = getgenv().blatant_config.theme_colour
+				Button.BackgroundColor3 = getgenv().celestial_config.theme_colour
 				Button.Size = UDim2.new(0, 401, 0, 30)
 				Button.AutoButtonColor = false
 				Button.Font = Enum.Font.Gotham
@@ -2163,7 +2163,7 @@ function DiscordLib:Window(text)
 					TweenService:Create(
 						Button,
 						TweenInfo.new(.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
-						{BackgroundColor3 = DiscordLib:darken(getgenv().blatant_config.theme_colour, .2)}
+						{BackgroundColor3 = DiscordLib:darken(getgenv().celestial_config.theme_colour, .2)}
 					):Play()
 				end)
 				
@@ -2181,7 +2181,7 @@ function DiscordLib:Window(text)
 					TweenService:Create(
 						Button,
 						TweenInfo.new(.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
-						{BackgroundColor3 = getgenv().blatant_config.theme_colour}
+						{BackgroundColor3 = getgenv().celestial_config.theme_colour}
 					):Play()
 				end)
 				ChannelHolder.CanvasSize = UDim2.new(0,0,0,ChannelHolderLayout.AbsoluteContentSize.Y)
@@ -2206,10 +2206,15 @@ function DiscordLib:Window(text)
 			    local toggle_function = {}
 			    
 				local toggled = default
+				
+				local locked = false
+				
 				local Toggle = Instance.new("TextButton")
 				local ToggleTitle = Instance.new("TextLabel")
 				local ToggleFrame = Instance.new("Frame")
+				local ToggleEffect = Instance.new('Frame')
 				local ToggleFrameCorner = Instance.new("UICorner")
+				local ToggleEffectCorner = Instance.new("UICorner")
 				local ToggleFrameCircle = Instance.new("Frame")
 				local ToggleFrameCircleCorner = Instance.new("UICorner")
 				local Icon = Instance.new("ImageLabel")
@@ -2243,10 +2248,23 @@ function DiscordLib:Window(text)
 				ToggleFrame.BackgroundColor3 = Color3.fromRGB(114, 118, 125)
 				ToggleFrame.Position = UDim2.new(0.900481343, -5, 0.13300018, 0)
 				ToggleFrame.Size = UDim2.new(0, 40, 0, 21)
-
+				
 				ToggleFrameCorner.CornerRadius = UDim.new(1, 8)
 				ToggleFrameCorner.Name = "ToggleFrameCorner"
 				ToggleFrameCorner.Parent = ToggleFrame
+				
+				ToggleEffect.Name = "ToggleEffect"
+				ToggleEffect.Size = UDim2.new(1, 0, 1, 0)
+				ToggleEffect.AnchorPoint = Vector2.new(.5, .5)
+				ToggleEffect.Position = UDim2.new(.5, 0, .5, 0)
+				ToggleEffect.Parent = Toggle
+				ToggleEffect.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+				ToggleEffect.BackgroundTransparency = 1
+				
+				ToggleEffectCorner.CornerRadius = UDim.new(1, 8)
+				ToggleEffectCorner.Name = "ToggleEffectCorner"
+				ToggleEffectCorner.Parent = ToggleEffect
+
 
 				ToggleFrameCircle.Name = "ToggleFrameCircle"
 				ToggleFrameCircle.Parent = ToggleFrame
@@ -2327,10 +2345,20 @@ function DiscordLib:Window(text)
 					toggled = true
 				end
 				
+                Toggle.MouseEnter:Connect(function()
+                    TweenService:Create(ToggleEffect, TweenInfo.new(.25), {BackgroundTransparency = .7}):Play()
+                end)
+                
+                Toggle.MouseLeave:Connect(function()
+                    TweenService:Create(ToggleEffect, TweenInfo.new(.25), {BackgroundTransparency = 1}):Play()
+                end)
+				
 				Toggle.MouseButton1Click:Connect(function()
-					toggled = not toggled
-					spawn(function() callback(toggled) end)
-					clicked(toggled)
+				    if locked == false then
+    					toggled = not toggled
+    					spawn(function() callback(toggled) end)
+    					clicked(toggled)
+    				end
 				end)
 				
 
@@ -2338,19 +2366,38 @@ function DiscordLib:Window(text)
 				ChannelHolder.CanvasSize = UDim2.new(0,0,0,ChannelHolderLayout.AbsoluteContentSize.Y)
 				
 				function toggle_function:set(state)
-					spawn(function() callback(state) end)
-					toggled = state
-					clicked(state)
+				    if locked == false then
+    					spawn(function() callback(state) end)
+    					toggled = state
+    					clicked(state)
+    				end
 					
+				end
+				
+				function toggle_function:lock(state)
+				    locked = state
+				    if state == true then
+				        Icon.Image = 'rbxassetid://8932589060'
+				        if toggled == true then
+    				        TweenService:Create(ToggleFrame, TweenInfo.new(.25), {BackgroundColor3 = Color3.fromRGB(200, 0, 0)}):Play()
+    				    end
+    				else
+				        if toggled == true then
+				            Icon.Image = 'http://www.roblox.com/asset/?id=6023426926'
+    				        TweenService:Create(ToggleFrame, TweenInfo.new(.25), {BackgroundColor3 = Color3.fromRGB(67, 181, 129)}):Play()
+    				    else
+    				        Icon.Image = 'http://www.roblox.com/asset/?id=6035047409'
+    				    end
+				    end
 				end
 				
 				function toggle_function:request_state()
 				   if toggled == true then
-				       return true
+                        return true, locked
+                        
 				    else
-				        return false
-				        
-				   end
+				        return false, locked
+                    end
 			        
 				end
 				
@@ -2411,7 +2458,7 @@ function DiscordLib:Window(text)
 
 				CurrentValueFrame.Name = "CurrentValueFrame"
 				CurrentValueFrame.Parent = SliderFrame
-				CurrentValueFrame.BackgroundColor3 = Color3.fromRGB(114, 137, 218)
+				CurrentValueFrame.BackgroundColor3 = getgenv().celestial_config.theme_colour
 				CurrentValueFrame.Size = UDim2.new((start or 0) / max, 0, 0, 8)
 
 				CurrentValueFrameCorner.Name = "CurrentValueFrameCorner"
@@ -3262,7 +3309,7 @@ function DiscordLib:Window(text)
 					TweenService:Create(
 						TextboxFrameOutline,
 						TweenInfo.new(.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
-						{BackgroundColor3 = getgenv().blatant_config.theme_colour}
+						{BackgroundColor3 = getgenv().celestial_config.theme_colour}
 					):Play()
 				end)
 				
@@ -3330,7 +3377,7 @@ function DiscordLib:Window(text)
 
 				Keybind.Name = "Keybind"
 				Keybind.Parent = ChannelHolder
-				Keybind.BackgroundColor3 = getgenv().blatant_config.theme_colour
+				Keybind.BackgroundColor3 = getgenv().celestial_config.theme_colour
 				Keybind.BorderSizePixel = 0
 				Keybind.Position = UDim2.new(0.261979163, 0, 0.190789461, 0)
 				Keybind.Size = UDim2.new(0, 401, 0, 30)
@@ -3358,7 +3405,7 @@ function DiscordLib:Window(text)
 
 				KeybindText.Name = "KeybindText"
 				KeybindText.Parent = Keybind
-				KeybindText.BackgroundColor3 = DiscordLib:darken(getgenv().blatant_config.theme_colour, .2)
+				KeybindText.BackgroundColor3 = DiscordLib:darken(getgenv().celestial_config.theme_colour, .2)
 				KeybindText.BackgroundTransparency = 0
 				KeybindText.Position = UDim2.new(0, 300, 0, 5)
 				KeybindText.Size = UDim2.new(0, 85, 0, 20)
@@ -3373,14 +3420,14 @@ function DiscordLib:Window(text)
 				LabelCorner.Parent = KeybindText
 				
 				Keybind.MouseEnter:Connect(function()
-					TweenService:Create(Keybind, TweenInfo.new(.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {BackgroundColor3 = DiscordLib:darken(getgenv().blatant_config.theme_colour, .2)}):Play()
+					TweenService:Create(Keybind, TweenInfo.new(.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {BackgroundColor3 = DiscordLib:darken(getgenv().celestial_config.theme_colour, .2)}):Play()
 					TweenService:Create(KeybindText, TweenInfo.new(.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {BackgroundColor3 = DiscordLib:darken(KeybindText.BackgroundColor3, .2)}):Play()
 				end)
 				
 				
 				Keybind.MouseLeave:Connect(function()
-					TweenService:Create(Keybind, TweenInfo.new(.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {BackgroundColor3 = getgenv().blatant_config.theme_colour}):Play()
-					TweenService:Create(KeybindText, TweenInfo.new(.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {BackgroundColor3 = DiscordLib:darken(getgenv().blatant_config.theme_colour, .2)}):Play()
+					TweenService:Create(Keybind, TweenInfo.new(.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {BackgroundColor3 = getgenv().celestial_config.theme_colour}):Play()
+					TweenService:Create(KeybindText, TweenInfo.new(.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {BackgroundColor3 = DiscordLib:darken(getgenv().celestial_config.theme_colour, .2)}):Play()
 				end)
 				
 				Keybind.MouseButton1Click:Connect(function()
