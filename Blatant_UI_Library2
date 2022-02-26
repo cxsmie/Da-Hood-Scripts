@@ -10,6 +10,8 @@ local user
 local tag
 local userinfo = {}
 
+getgenv().LOADED = false
+
 local tag_table = {}
 
 function DiscordLib:darken(colour, rate)
@@ -96,14 +98,22 @@ Discord.Name = 'CelestialX'
 Discord.Parent = game.CoreGui
 Discord.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
+
+
 function DiscordLib:Window(text)
 	local currentservertoggled = ''
 	local minimized = false
 	local fs = false
+	
+	local tween_table = {}
+	
 	local settingsopened = false
 	local MainFrame = Instance.new('Frame')
 	local TopFrame = Instance.new('Frame')
 	local Title = Instance.new('TextLabel')
+	local intro_label = Instance.new('TextLabel')
+	local intro_loading_frame = Instance.new('Frame')
+	local intro_loading = Instance.new('TextLabel')
 	local CloseBtn = Instance.new('TextButton')
 	local CloseIcon = Instance.new('ImageLabel')
 	local MinimizeBtn = Instance.new('TextButton')
@@ -138,7 +148,7 @@ function DiscordLib:Window(text)
 	TopFrame.BackgroundTransparency = 1.000
 	TopFrame.BorderSizePixel = 0
 	TopFrame.Position = UDim2.new(-0.000658480625, 0, 0, 0)
-	TopFrame.Size = UDim2.new(0, 681, 0, 22)
+	TopFrame.Size = UDim2.new(1, 0, 1, 0)
 	
 	TopFrameHolder.Name = 'TopFrameHolder'
 	TopFrameHolder.Parent = TopFrame
@@ -146,7 +156,7 @@ function DiscordLib:Window(text)
 	TopFrameHolder.BackgroundTransparency = 1.000
 	TopFrameHolder.BorderSizePixel = 0
 	TopFrameHolder.Position = UDim2.new(-0.000658480625, 0, 0, 0)
-	TopFrameHolder.Size = UDim2.new(0, 681, 0, 22)
+	TopFrameHolder.Size = UDim2.new(1, 0, 1, 0)
 
 	Title.Name = 'Title'
 	Title.Parent = TopFrame
@@ -159,6 +169,48 @@ function DiscordLib:Window(text)
 	Title.TextColor3 = Color3.fromRGB(99, 102, 109)
 	Title.TextSize = 13.000
 	Title.TextXAlignment = Enum.TextXAlignment.Left
+	Title.TextTransparency = 1
+
+	intro_label.Name = 'intro_label'
+	intro_label.Parent = TopFrame
+	intro_label.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+	intro_label.BackgroundTransparency = 1
+	intro_label.AnchorPoint = Vector2.new(.5, .5)
+	intro_label.Position = UDim2.new(0.5, 0, .5, 0)
+	intro_label.Size = UDim2.new(1, 0, .5, 0)
+	intro_label.Font = Enum.Font.GothamBold
+	intro_label.Text = 'Celestial X'
+	intro_label.TextScaled = true
+	intro_label.TextColor3 = Color3.fromRGB(99, 102, 109)
+	intro_label.TextSize = 13.000
+	intro_label.TextScaled = true
+	intro_label.TextXAlignment = Enum.TextXAlignment.Center
+	intro_label.TextTransparency = 1
+	
+	intro_loading_frame.Name = 'intro_loading_frame'
+	intro_loading_frame.Parent = TopFrame
+	intro_loading_frame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+	intro_loading_frame.BackgroundTransparency = 1
+	intro_loading_frame.AnchorPoint = Vector2.new(.5, .5)
+	intro_loading_frame.Position = UDim2.new(0.5, 0, .6, 0)
+	intro_loading_frame.Size = UDim2.new(1, 0, .15, 0)
+	intro_loading_frame.ClipsDescendants = true
+	
+	intro_loading.Name = 'intro_loading'
+	intro_loading.Parent = intro_loading_frame
+	intro_loading.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+	intro_loading.BackgroundTransparency = 1
+	intro_loading.AnchorPoint = Vector2.new(.5, .5)
+	intro_loading.Position = UDim2.new(0.5, 0, -.5, 0)
+	intro_loading.Size = UDim2.new(1, 0, 1, 0)
+	intro_loading.Font = Enum.Font.GothamBold
+	intro_loading.Text = 'Loading..'
+	intro_loading.TextScaled = true
+	intro_loading.TextColor3 = Color3.fromRGB(99, 102, 109)
+	intro_loading.TextSize = 13.000
+	intro_loading.TextScaled = true
+	intro_loading.TextXAlignment = Enum.TextXAlignment.Center
+	intro_loading.TextTransparency = 1
 
 	CloseBtn.Name = 'CloseBtn'
 	CloseBtn.Parent = TopFrame
@@ -172,6 +224,7 @@ function DiscordLib:Window(text)
 	CloseBtn.TextSize = 14.000
 	CloseBtn.BorderSizePixel = 0
 	CloseBtn.AutoButtonColor = false
+	CloseBtn.Visible = false
 
 	CloseIcon.Name = 'CloseIcon'
 	CloseIcon.Parent = CloseBtn
@@ -194,6 +247,7 @@ function DiscordLib:Window(text)
 	MinimizeBtn.TextSize = 14.000
 	MinimizeBtn.BorderSizePixel = 0
 	MinimizeBtn.AutoButtonColor = false
+	MinimizeBtn.Visible = false
 
 	MinimizeIcon.Name = 'MinimizeLabel'
 	MinimizeIcon.Parent = MinimizeBtn
@@ -276,6 +330,9 @@ function DiscordLib:Window(text)
 	ServersHoldFrame.BackgroundTransparency = 1.000
 	ServersHoldFrame.BorderColor3 = Color3.fromRGB(27, 42, 53)
 	ServersHoldFrame.Size = UDim2.new(0, 71, 0, 396)
+	
+	local server_scale = Instance.new('UIScale', ServersHoldFrame)
+	server_scale.Scale = 0
 
 	ServersHold.Name = 'ServersHold'
 	ServersHold.Parent = ServersHoldFrame
@@ -296,6 +353,77 @@ function DiscordLib:Window(text)
 
 	ServersHoldPadding.Name = 'ServersHoldPadding'
 	ServersHoldPadding.Parent = ServersHold
+	
+	spawn(function()
+        while getgenv().LOADED == false do
+            intro_loading.Text = 'Da Hood\n.'
+            wait(.25)
+            intro_loading.Text = 'Da Hood\n..'
+            wait(.25)
+            intro_loading.Text = 'Da Hood\n...'
+            wait(.25)
+            intro_loading.Text = 'Da Hood\n....'
+            wait(.25)
+        end
+    end)
+	       
+	   
+    
+	
+	spawn(function()
+	    
+	    local start_time = tick()
+	    
+	    local not_able = false
+    
+        TweenService:Create(intro_label, TweenInfo.new(.5), {TextTransparency = 0}):Play()
+        wait(1)
+        TweenService:Create(intro_label, TweenInfo.new(.25), {Position = UDim2.new(.5, 0, .4, 0)}):Play()
+        wait(.25)
+        TweenService:Create(intro_loading, TweenInfo.new(.25), {Position = UDim2.new(.5, 0, .5, 0)}):Play()
+        TweenService:Create(intro_loading, TweenInfo.new(.25), {TextTransparency = 0}):Play()
+        TweenService:Create(intro_label, TweenInfo.new(.25), {TextColor3 = Color3.fromRGB(255, 255, 255)}):Play()
+        
+        repeat
+            if tick() - start_time >= 5 then
+
+                not_able = true
+            end
+            wait()
+        until getgenv().LOADED == true or not_able == true
+        
+        if getgenv().LOADED == false then
+            not_able = true
+        end
+        
+        getgenv().LOADED = true
+        
+        if not_able == true then
+            for i = 5, 0, -1 do
+                intro_loading.Text = string.format('Da Hood\nFAILED TO LOAD (%s sec)', i)
+                wait(1)
+            end
+            wait(1)
+            
+            Discord:Destroy()
+            
+            return
+
+        else
+            
+            TweenService:Create(intro_label, TweenInfo.new(.5), {TextTransparency = 1}):Play()
+    
+            wait(.5)
+            TweenService:Create(intro_loading, TweenInfo.new(.5), {Position = UDim2.new(.5, 0, -.5, 0)}):Play()
+            TweenService:Create(intro_loading, TweenInfo.new(.25), {TextTransparency = 1}):Play()
+            TweenService:Create(TopFrame, TweenInfo.new(.25), {Size = UDim2.new(1, 0, 0, 22)}):Play()
+            wait(.25)
+            TweenService:Create(Title, TweenInfo.new(.25), {TextTransparency = 0}):Play()
+            wait(.25)
+            TweenService:Create(server_scale, TweenInfo.new(.5, Enum.EasingStyle.Back), {Scale = 1}):Play()
+        end
+    end)
+    
 
 	CloseBtn.MouseButton1Click:Connect(
 		function()
