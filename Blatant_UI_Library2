@@ -20,8 +20,8 @@ end
 getgenv().LOADED = false
 
 local return_table = {
-    tag_table = {}
-    theme_table = {}
+    tag_table = {},
+    theme_table = {},
 }
 
 function library:darken(colour, rate)
