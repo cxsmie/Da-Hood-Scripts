@@ -1,20 +1,30 @@
-local DiscordLib = {}
+local library = {}
 local UserInputService = game:GetService('UserInputService')
 local TweenService = game:GetService('TweenService')
 local RunService = game:GetService('RunService')
 local LocalPlayer = game:GetService('Players').LocalPlayer
+local lplayer = game:GetService('Players').LocalPlayer
 local Mouse = LocalPlayer:GetMouse()
 local HttpService = game:GetService('HttpService')
-local pfp
-local user
-local tag
+local pfp = nil
+local user = nil
+local tag = nil
 local userinfo = {}
+
+local script_name = getgenv().celestial_config.Name
+
+if not script_name then
+    script_name = 'Celestial X'
+end
 
 getgenv().LOADED = false
 
-local tag_table = {}
+local return_table = {
+    tag_table = {}
+    theme_table = {}
+}
 
-function DiscordLib:darken(colour, rate)
+function library:darken(colour, rate)
 	local h, s, v = colour:ToHSV()
 	
 	v = math.clamp(v - rate, 0, 1)
@@ -23,18 +33,18 @@ function DiscordLib:darken(colour, rate)
 end
 
 pcall(function()
-	userinfo = HttpService:JSONDecode(readfile('discordlibinfo.txt'));
+	userinfo = HttpService:JSONDecode(readfile('celestial_info.txt'));
 end)
 
-pfp = 'https://www.roblox.com/headshot-thumbnail/image?userId='.. game.Players.LocalPlayer.UserId ..'&width=420&height=420&format=png'
-user =  game.Players.LocalPlayer.Name
+pfp = 'https://www.roblox.com/headshot-thumbnail/image?userId='..lplayer.UserId..'&width=420&height=420&format=png'
+user =  lplayer.Name
 tag = 'Regular'
 
 local function SaveInfo()
 	userinfo['pfp'] = pfp
 	userinfo['user'] = user
 	userinfo['tag'] = tag
-	writefile('discordlibinfo.txt', HttpService:JSONEncode(userinfo));
+	writefile('celestial_info.txt', HttpService:JSONEncode(userinfo));
 end
 
 local function MakeDraggable(topbarobject, object)
@@ -52,7 +62,7 @@ local function MakeDraggable(topbarobject, object)
 				StartPosition.Y.Scale,
 				StartPosition.Y.Offset + Delta.Y
 			)
-		object.Position = pos
+		TweenService:Create(object, TweenInfo.new(.1), {Position = pos}):Play()
 	end
 
 	topbarobject.InputBegan:Connect(
@@ -100,7 +110,7 @@ Discord.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
 
 
-function DiscordLib:Window(text)
+function library:Window(text)
 	local currentservertoggled = ''
 	local minimized = false
 	local fs = false
@@ -319,7 +329,7 @@ function DiscordLib:Window(text)
 	UserTag.TextSize = 13.000
 	UserTag.TextTransparency = 0.300
 	UserTag.TextXAlignment = Enum.TextXAlignment.Left
-	table.insert(tag_table, UserTag)
+	table.insert(return_table.tag_table, UserTag)
 	
 	UserName.Text = user
 	UserTag.Text = tag
@@ -726,7 +736,7 @@ function DiscordLib:Window(text)
 	UserSettingsPadTag.TextColor3 = Color3.fromRGB(184, 186, 189)
 	UserSettingsPadTag.TextSize = 13.000
 	UserSettingsPadTag.TextXAlignment = Enum.TextXAlignment.Left
-	table.insert(tag_table, UserSettingsPadTag)
+	table.insert(return_table.tag_table, UserSettingsPadTag)
 
 	EditBtn.Name = 'EditBtn'
 	EditBtn.Parent = UserSettingsPad
@@ -872,7 +882,7 @@ function DiscordLib:Window(text)
 	UserPanelTag.TextColor3 = Color3.fromRGB(184, 186, 189)
 	UserPanelTag.TextSize = 17.000
 	UserPanelTag.TextXAlignment = Enum.TextXAlignment.Left
-	table.insert(tag_table, UserPanelTag)
+	table.insert(return_table.tag_table, UserPanelTag)
 
 	UserPanelCorner.Name = 'UserPanelCorner'
 	UserPanelCorner.Parent = UserPanel
@@ -979,7 +989,7 @@ function DiscordLib:Window(text)
 	end)
 	
 	
-	function DiscordLib:Notification(titletext, desctext, btntext, callback)
+	function library:Notification(titletext, desctext, btntext, callback)
 		local NotificationHolderMain = Instance.new('TextButton')
 		local Notification = Instance.new('Frame')
 		local NotificationCorner = Instance.new('UICorner')
@@ -1081,6 +1091,7 @@ function DiscordLib:Window(text)
 		AlrightBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
 		AlrightBtn.TextSize = 13.000
 		AlrightBtn.AutoButtonColor = false
+		table.insert(return_table.theme_table, {AlrightBtn, 'BackgroundColor3'})
 		
 		AlrightCorner.CornerRadius = UDim.new(0, 4)
 		AlrightCorner.Name = 'AlrightCorner'
@@ -1104,19 +1115,11 @@ function DiscordLib:Window(text)
 		end)
 		
 		AlrightBtn.MouseEnter:Connect(function()
-			TweenService:Create(
-				AlrightBtn,
-				TweenInfo.new(.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
-				{BackgroundColor3 = DiscordLib:darken(getgenv().celestial_config.theme_colour, .2)}
-			):Play()
+			TweenService:Create(AlrightBtn, TweenInfo.new(.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {BackgroundColor3 = library:darken(getgenv().celestial_config.theme_colour, .2)}):Play()
 		end)
 
 		AlrightBtn.MouseLeave:Connect(function()
-			TweenService:Create(
-				AlrightBtn,
-				TweenInfo.new(.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
-				{BackgroundColor3 = getgenv().celestial_config.theme_colour}
-			):Play()
+			TweenService:Create(AlrightBtn, TweenInfo.new(.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {BackgroundColor3 = getgenv().celestial_config.theme_colour}):Play()
 		end)
 	end
 
@@ -1606,6 +1609,7 @@ function DiscordLib:Window(text)
 				Button.TextColor3 = Color3.fromRGB(255, 255, 255)
 				Button.TextSize = 14.000
 				Button.Text = text
+				table.insert(return_table.theme_table, {Button, 'BackgroundColor3'})
 
 				ButtonCorner.CornerRadius = UDim.new(0, 4)
 				ButtonCorner.Name = 'ButtonCorner'
@@ -1615,7 +1619,7 @@ function DiscordLib:Window(text)
 					TweenService:Create(
 						Button,
 						TweenInfo.new(.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
-						{BackgroundColor3 = DiscordLib:darken(getgenv().celestial_config.theme_colour, .2)}
+						{BackgroundColor3 = library:darken(getgenv().celestial_config.theme_colour, .2)}
 					):Play()
 				end)
 				
@@ -1912,6 +1916,7 @@ function DiscordLib:Window(text)
 				CurrentValueFrame.Parent = SliderFrame
 				CurrentValueFrame.BackgroundColor3 = getgenv().celestial_config.theme_colour
 				CurrentValueFrame.Size = UDim2.new((start or 0) / max, 0, 0, 8)
+				table.insert(return_table.theme_table, {CurrentValueFrame, 'BackgroundColor3'})
 
 				CurrentValueFrameCorner.Name = 'CurrentValueFrameCorner'
 				CurrentValueFrameCorner.Parent = CurrentValueFrame
@@ -2449,6 +2454,11 @@ function DiscordLib:Window(text)
 				return DropFunc
 			end
 			function ChannelContent:Colorpicker(text, preset, callback)
+			    
+			    if type(text) ~= 'string' then
+			        text = 'Colorpicker'
+                end
+			    
 				local OldToggleColor = Color3.fromRGB(0, 0, 0)
 				local OldColor = Color3.fromRGB(0, 0, 0)
 				local OldColorSelectionPosition = nil
@@ -2491,7 +2501,7 @@ function DiscordLib:Window(text)
 				ColorpickerTitle.Position = UDim2.new(0, 5, 0, 0)
 				ColorpickerTitle.Size = UDim2.new(0, 200, 0, 29)
 				ColorpickerTitle.Font = Enum.Font.Gotham
-				ColorpickerTitle.Text = 'Colorpicker'
+				ColorpickerTitle.Text = text
 				ColorpickerTitle.TextColor3 = Color3.fromRGB(127, 131, 137)
 				ColorpickerTitle.TextSize = 14.000
 				ColorpickerTitle.TextXAlignment = Enum.TextXAlignment.Left
@@ -2694,6 +2704,11 @@ function DiscordLib:Window(text)
 			
 			
 			function ChannelContent:Textbox(text, placetext, disapper, callback)
+			    
+			    if type(disapper) ~= 'boolean' then
+			        disapper = false
+			    end
+			    
 				local Textbox = Instance.new('Frame')
 				local TextboxTitle = Instance.new('TextLabel')
 				local TextboxFrameOutline = Instance.new('Frame')
@@ -2756,34 +2771,29 @@ function DiscordLib:Window(text)
 				TextBox.TextColor3 = Color3.fromRGB(193, 195, 197)
 				TextBox.TextSize = 14.000
 				TextBox.TextXAlignment = Enum.TextXAlignment.Left
+				TextBox.ClearTextOnFocus = disapper
 				
 				TextBox.Focused:Connect(function()
-					TweenService:Create(
-						TextboxFrameOutline,
-						TweenInfo.new(.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
-						{BackgroundColor3 = getgenv().celestial_config.theme_colour}
-					):Play()
+					TweenService:Create(TextboxFrameOutline, TweenInfo.new(.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {BackgroundColor3 = getgenv().celestial_config.theme_colour}):Play()
 				end)
 				
 				TextBox.FocusLost:Connect(function(ep)
-					TweenService:Create(
-						TextboxFrameOutline,
-						TweenInfo.new(.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
-						{BackgroundColor3 = Color3.fromRGB(37, 40, 43)}
-					):Play()
-					if ep then
-						if #TextBox.Text > 0 then
-							callback(TextBox.Text)
-							if disapper then
-								TextBox.Text = ''
-							end
-						end
-					end
+				    local text = TextBox.Text
+				    
+				    
+				    if text ~= '' and #text > 0 then
+				        spawn(function() callback(TextBox.Text) end)
+				    end
+					TweenService:Create(TextboxFrameOutline, TweenInfo.new(.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {BackgroundColor3 = Color3.fromRGB(37, 40, 43)}):Play()
+					
+					if disapper then
+					    TextBox.Text = ''
+                    end
 				end)
 				
 				ChannelHolder.CanvasSize = UDim2.new(0,0,0,ChannelHolderLayout.AbsoluteContentSize.Y)
 				
-				return TextBox
+				return TextBox, TextboxTitle
 			end
 			
 			function ChannelContent:Label(text)
@@ -2838,6 +2848,7 @@ function DiscordLib:Window(text)
 				Keybind.Text = ''
 				Keybind.TextColor3 = Color3.fromRGB(255, 255, 255)
 				Keybind.TextSize = 14.000
+				table.insert(return_table.theme_table, {Keybind, 'BackgroundColor3'})
 				
 				BindCorner.CornerRadius = UDim.new(0, 4)
 				BindCorner.Name = 'BindCorner'
@@ -2857,7 +2868,7 @@ function DiscordLib:Window(text)
 
 				KeybindText.Name = 'KeybindText'
 				KeybindText.Parent = Keybind
-				KeybindText.BackgroundColor3 = DiscordLib:darken(getgenv().celestial_config.theme_colour, .2)
+				KeybindText.BackgroundColor3 = library:darken(getgenv().celestial_config.theme_colour, .2)
 				KeybindText.BackgroundTransparency = 0
 				KeybindText.Position = UDim2.new(0, 300, 0, 5)
 				KeybindText.Size = UDim2.new(0, 85, 0, 20)
@@ -2866,20 +2877,21 @@ function DiscordLib:Window(text)
 				KeybindText.TextColor3 = Color3.fromRGB(200, 200, 200)
 				KeybindText.TextSize = 14.000
 				KeybindText.TextXAlignment = Enum.TextXAlignment.Center
+				table.insert(return_table.theme_table, {KeybindText, 'darken_BackgroundColor3'})
 				
 				LabelCorner.CornerRadius = UDim.new(0, 4)
 				LabelCorner.Name = 'LabelCorner'
 				LabelCorner.Parent = KeybindText
 				
 				Keybind.MouseEnter:Connect(function()
-					TweenService:Create(Keybind, TweenInfo.new(.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {BackgroundColor3 = DiscordLib:darken(getgenv().celestial_config.theme_colour, .2)}):Play()
-					TweenService:Create(KeybindText, TweenInfo.new(.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {BackgroundColor3 = DiscordLib:darken(KeybindText.BackgroundColor3, .2)}):Play()
+					TweenService:Create(Keybind, TweenInfo.new(.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {BackgroundColor3 = library:darken(getgenv().celestial_config.theme_colour, .2)}):Play()
+					TweenService:Create(KeybindText, TweenInfo.new(.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {BackgroundColor3 = library:darken(KeybindText.BackgroundColor3, .2)}):Play()
 				end)
 				
 				
 				Keybind.MouseLeave:Connect(function()
 					TweenService:Create(Keybind, TweenInfo.new(.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {BackgroundColor3 = getgenv().celestial_config.theme_colour}):Play()
-					TweenService:Create(KeybindText, TweenInfo.new(.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {BackgroundColor3 = DiscordLib:darken(getgenv().celestial_config.theme_colour, .2)}):Play()
+					TweenService:Create(KeybindText, TweenInfo.new(.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {BackgroundColor3 = library:darken(getgenv().celestial_config.theme_colour, .2)}):Play()
 				end)
 				
 				Keybind.MouseButton1Click:Connect(function()
@@ -2903,4 +2915,4 @@ function DiscordLib:Window(text)
 	end
 	return ServerHold
 end
-return DiscordLib, tag_table
+return library, return_table
