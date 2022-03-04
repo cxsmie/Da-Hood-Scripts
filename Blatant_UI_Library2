@@ -11,11 +11,6 @@ local user = nil
 local tag = nil
 local userinfo = {}
 
-local script_name = getgenv().celestial_config.Name
-
-if not script_name then
-    script_name = 'Celestial X'
-end
 
 getgenv().LOADED = false
 
@@ -1001,7 +996,7 @@ function library:Window(text)
 		local AlrightBtn = Instance.new('TextButton')
 		local AlrightCorner = Instance.new('UICorner')
 		
-		callback = callback or function()
+		callback = callback or function() end
 
 		NotificationHolderMain.Name = 'NotificationHolderMain'
 		NotificationHolderMain.Parent = MainFrame
@@ -1106,11 +1101,7 @@ function library:Window(text)
 				{BackgroundTransparency = 1}
 			):Play()
 			Notification:TweenSize(UDim2.new(0, 0, 0, 0), Enum.EasingDirection.Out, Enum.EasingStyle.Quart, .2, true)
-			TweenService:Create(
-				Notification,
-				TweenInfo.new(.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
-				{BackgroundTransparency = 1}
-			):Play()
+			TweenService:Create(Notification, TweenInfo.new(.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {BackgroundTransparency = 1}):Play()
 			callback()
 			wait(.2)
 			NotificationHolderMain:Destroy()
@@ -1606,6 +1597,8 @@ function library:Window(text)
 				
 				local force_lock = false
 				
+				callback = callback or function() end
+				
 
 				Button.Name = 'Button'
 				Button.Parent = ChannelHolder
@@ -1675,6 +1668,7 @@ function library:Window(text)
 				return button_functions, Button
 				
 			end
+			
 			function ChannelContent:Toggle(text,default,callback)
 			    
 			    local toggle_function = {}
@@ -1682,6 +1676,8 @@ function library:Window(text)
 				local toggled = default
 				
 				local locked = false
+				
+				callback = callback or function() end
 				
 				local Toggle = Instance.new('TextButton')
 				local ToggleTitle = Instance.new('TextLabel')
@@ -1881,6 +1877,11 @@ function library:Window(text)
 			function ChannelContent:Slider(text, min, max, start, callback)
 				local SliderFunc = {}
 				local dragging = false
+				
+				local frame_enter = false
+				local zip_enter = false
+				
+				
 				local Slider = Instance.new('TextButton')
 				local SliderTitle = Instance.new('TextLabel')
 				local SliderFrame = Instance.new('Frame')
@@ -1894,6 +1895,8 @@ function library:Window(text)
 				local SquareBubble = Instance.new('Frame')
 				local GlowBubble = Instance.new('ImageLabel')
 				local ValueLabel = Instance.new('TextLabel')
+				
+				callback = callback or function() end
 
 
 				Slider.Name = 'Slider'
@@ -1960,12 +1963,32 @@ function library:Window(text)
 				Zip.MouseEnter:Connect(function()
 					if dragging == false then
 						ValueBubble.Visible = true
+						zip_enter = true
 					end
 				end)
 				
 				Zip.MouseLeave:Connect(function()
 					if dragging == false then
-						ValueBubble.Visible = false
+					    if frame_enter == false then
+						    ValueBubble.Visible = false
+                        end
+						zip_enter = false
+					end
+				end)
+				
+				CurrentValueFrame.MouseEnter:Connect(function()
+					if dragging == false then
+						ValueBubble.Visible = true
+						frame_enter = true
+					end
+				end)
+				
+				CurrentValueFrame.MouseLeave:Connect(function()
+					if dragging == false then
+					    if zip_enter == false then
+						    ValueBubble.Visible = false
+                        end
+						frame_enter = false
 					end
 				end)
 	
@@ -2057,6 +2080,7 @@ function library:Window(text)
 					callback(tochange)
 				end
 				
+				
 				ChannelHolder.CanvasSize = UDim2.new(0,0,0,ChannelHolderLayout.AbsoluteContentSize.Y)
 				return SliderFunc
 			end
@@ -2093,6 +2117,8 @@ function library:Window(text)
 				local CurrentSelectedText = Instance.new('TextLabel')
 				local ArrowImg = Instance.new('ImageLabel')
 				local DropdownFrameBtn = Instance.new('TextButton')
+
+                callback = callback or function() end
 
 				Dropdown.Name = 'Dropdown'
 				Dropdown.Parent = ChannelHolder
@@ -2487,6 +2513,8 @@ function library:Window(text)
 				local ColorInput = nil
 				local HueInput = nil
 				
+				callback = callback or function() end
+				
 				local color_functions = {}
 				
 				local Colorpicker = Instance.new('Frame')
@@ -2723,9 +2751,6 @@ function library:Window(text)
 			
 			function ChannelContent:Textbox(text, placetext, disapper, callback)
 			    
-			    if type(disapper) ~= 'boolean' then
-			        disapper = false
-			    end
 			    
 				local Textbox = Instance.new('Frame')
 				local TextboxTitle = Instance.new('TextLabel')
@@ -2734,7 +2759,9 @@ function library:Window(text)
 				local TextboxFrame = Instance.new('Frame')
 				local TextboxFrameCorner = Instance.new('UICorner')
 				local TextBox = Instance.new('TextBox')
-
+                
+                callback = callback or function() end
+                
 				Textbox.Name = 'Textbox'
 				Textbox.Parent = ChannelHolder
 				Textbox.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
@@ -2854,7 +2881,9 @@ function library:Window(text)
 				local KeybindText = Instance.new('TextLabel')
 				local BindCorner = Instance.new('UICorner')
 				local LabelCorner = Instance.new('UICorner')
-
+                
+                callback = callback or function() end
+                
 				Keybind.Name = 'Keybind'
 				Keybind.Parent = ChannelHolder
 				Keybind.BackgroundColor3 = getgenv().celestial_config.theme_colour
