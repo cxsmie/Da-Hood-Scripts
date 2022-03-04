@@ -1000,6 +1000,8 @@ function library:Window(text)
 		local Text2 = Instance.new('TextLabel')
 		local AlrightBtn = Instance.new('TextButton')
 		local AlrightCorner = Instance.new('UICorner')
+		
+		callback = callback or function()
 
 		NotificationHolderMain.Name = 'NotificationHolderMain'
 		NotificationHolderMain.Parent = MainFrame
@@ -1593,12 +1595,17 @@ function library:Window(text)
 				ChannelHolder.Visible = true
 			end
 			local ChannelContent = {}
-			function ChannelContent:Button(text,callback)
+			function ChannelContent:Button(text, callback)
 			    
 			    local button_functions = {}
 			    
 				local Button = Instance.new('TextButton')
 				local ButtonCorner = Instance.new('UICorner')
+				
+				local locked = false
+				
+				local force_lock = false
+				
 
 				Button.Name = 'Button'
 				Button.Parent = ChannelHolder
@@ -1616,34 +1623,27 @@ function library:Window(text)
 				ButtonCorner.Parent = Button
 				
 				Button.MouseEnter:Connect(function()
-					TweenService:Create(
-						Button,
-						TweenInfo.new(.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
-						{BackgroundColor3 = library:darken(getgenv().celestial_config.theme_colour, .2)}
-					):Play()
+					TweenService:Create(Button, TweenInfo.new(.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {BackgroundColor3 = library:darken(getgenv().celestial_config.theme_colour, .2)}):Play()
 				end)
 				
 				Button.MouseButton1Click:Connect(function()
-					spawn(callback)
+				    if force_lock == true or locked == true then
+				        return
+				    end
+					spawn(function() callback() end)
 					Button.TextSize = 0
-					TweenService:Create(
-						Button,
-						TweenInfo.new(.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
-						{TextSize = 14}
-					):Play()
+					TweenService:Create(Button, TweenInfo.new(.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {TextSize = 14}):Play()
 				end)
 				
 				Button.MouseLeave:Connect(function()
-					TweenService:Create(
-						Button,
-						TweenInfo.new(.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
-						{BackgroundColor3 = getgenv().celestial_config.theme_colour}
-					):Play()
+					TweenService:Create(Button, TweenInfo.new(.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {BackgroundColor3 = getgenv().celestial_config.theme_colour}):Play()
 				end)
 				ChannelHolder.CanvasSize = UDim2.new(0,0,0,ChannelHolderLayout.AbsoluteContentSize.Y)
 				
 				function button_functions:click(animation)
-                    spawn(callback)
+				    if force_lock == true then
+				        return
+				    end
                     if animation == true then
     					Button.TextSize = 0
     					TweenService:Create(
@@ -1652,6 +1652,24 @@ function library:Window(text)
     						{TextSize = 14}
     					):Play()
                     end
+                    callback()
+				end
+				
+				function button_functions:lock(state, force)
+				    
+				    if state == true then
+				        TweenService:Create(Button, TweenInfo.new(.25), {BackgroundColor3 = Color3.fromRGB(30, 30, 30)}):Play()
+				    else
+				        TweenService:Create(Button, TweenInfo.new(.25), {BackgroundColor3 = getgenv().celestial_config.theme_colour}):Play()
+				    end
+				    
+				    if force then
+				        force_lock = state
+				        locked = false
+				    else
+				        locked = state
+				        force_lock = false
+				    end
 				end
 				
 				return button_functions, Button
