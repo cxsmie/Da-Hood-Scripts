@@ -1666,7 +1666,7 @@ function library:Window(text)
 				function button_functions:lock(state, force)
 				    
 				    if state == true then
-				        TweenService:Create(Button, TweenInfo.new(.25), {BackgroundColor3 = Color3.fromRGB(60, 60, 60)}):Play()
+				        TweenService:Create(Button, TweenInfo.new(.25), {BackgroundColor3 = Color3.fromRGB(41, 43, 47)}):Play()
 				    else
 				        TweenService:Create(Button, TweenInfo.new(.25), {BackgroundColor3 = getgenv().celestial_config.theme_colour}):Play()
 				    end
