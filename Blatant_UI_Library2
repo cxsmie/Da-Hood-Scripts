@@ -1625,6 +1625,9 @@ function library:Window(text)
 				ButtonCorner.Parent = Button
 				
 				Button.MouseEnter:Connect(function()
+				    if force_lock == true or locked == true then
+				        return
+				    end
 					TweenService:Create(Button, TweenInfo.new(.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {BackgroundColor3 = library:darken(getgenv().celestial_config.theme_colour, .2)}):Play()
 				end)
 				
@@ -1638,6 +1641,9 @@ function library:Window(text)
 				end)
 				
 				Button.MouseLeave:Connect(function()
+				    if force_lock == true or locked == true then
+				        return
+				    end
 					TweenService:Create(Button, TweenInfo.new(.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {BackgroundColor3 = getgenv().celestial_config.theme_colour}):Play()
 				end)
 				ChannelHolder.CanvasSize = UDim2.new(0,0,0,ChannelHolderLayout.AbsoluteContentSize.Y)
@@ -1660,7 +1666,7 @@ function library:Window(text)
 				function button_functions:lock(state, force)
 				    
 				    if state == true then
-				        TweenService:Create(Button, TweenInfo.new(.25), {BackgroundColor3 = Color3.fromRGB(30, 30, 30)}):Play()
+				        TweenService:Create(Button, TweenInfo.new(.25), {BackgroundColor3 = Color3.fromRGB(60, 60, 60)}):Play()
 				    else
 				        TweenService:Create(Button, TweenInfo.new(.25), {BackgroundColor3 = getgenv().celestial_config.theme_colour}):Play()
 				    end
