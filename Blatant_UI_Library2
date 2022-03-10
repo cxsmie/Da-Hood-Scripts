@@ -2886,7 +2886,7 @@ function library:Window(text)
 				
 				ChannelHolder.CanvasSize = UDim2.new(0,0,0,ChannelHolderLayout.AbsoluteContentSize.Y)
 				
-			    return LabelTitle
+			    return LabelTitle, Label
 			end
 			
 			function ChannelContent:Bind(text, presetbind, callback)
