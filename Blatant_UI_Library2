@@ -861,7 +861,7 @@ function library:Window(text)
 	EchoInfo.Position = UDim2.new(0.304721028, 0, 0.821333349, 0)
 	EchoInfo.Size = UDim2.new(0, 133, 0, 44)
 	EchoInfo.Font = Enum.Font.Gotham
-	EchoInfo.Text = string.format('Echo - %s\nMade by Celestial', getgenv().info_config.version, getgenv())
+	EchoInfo.Text = string.format('Echo - %s\nMade by Celestial', getgenv().info_config.version, getgenv().info_config.creator)
 	EchoInfo.TextColor3 = Color3.fromRGB(101, 108, 116)
 	EchoInfo.TextSize = 13.000
 	EchoInfo.TextWrapped = true
