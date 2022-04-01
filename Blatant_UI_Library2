@@ -1000,7 +1000,7 @@ function library:Window(text)
 
 		AlrightBtn.Name = 'AlrightBtn'
 		AlrightBtn.Parent = Notification
-		AlrightBtn.BackgroundColor3 = getgenv().echo_config.theme_colour
+		AlrightBtn.BackgroundColor3 = getgenv().echo_config.info_config.theme_colour
 		AlrightBtn.Position = UDim2.new(0.0332369953, 0, 0.789141417, 0)
 		AlrightBtn.Size = UDim2.new(0, 322, 0, 27)
 		AlrightBtn.Font = Enum.Font.Gotham
@@ -1028,11 +1028,11 @@ function library:Window(text)
 		end)
 		
 		AlrightBtn.MouseEnter:Connect(function()
-			TweenService:Create(AlrightBtn, TweenInfo.new(.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {BackgroundColor3 = library:darken(getgenv().echo_config.theme_colour, .2)}):Play()
+			TweenService:Create(AlrightBtn, TweenInfo.new(.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {BackgroundColor3 = library:darken(getgenv().echo_config.info_config.theme_colour, .2)}):Play()
 		end)
 
 		AlrightBtn.MouseLeave:Connect(function()
-			TweenService:Create(AlrightBtn, TweenInfo.new(.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {BackgroundColor3 = getgenv().echo_config.theme_colour}):Play()
+			TweenService:Create(AlrightBtn, TweenInfo.new(.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {BackgroundColor3 = getgenv().echo_config.info_config.theme_colour}):Play()
 		end)
 	end
 
@@ -1270,7 +1270,7 @@ function library:Window(text)
 					TweenService:Create(
 						Server,
 						TweenInfo.new(.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
-						{BackgroundColor3 = getgenv().echo_config.theme_colour}
+						{BackgroundColor3 = getgenv().echo_config.info_config.theme_colour}
 					):Play()
 					TweenService:Create(
 						ServerBtnCorner,
@@ -1331,7 +1331,7 @@ function library:Window(text)
 						TweenService:Create(
 							Server,
 							TweenInfo.new(.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
-							{BackgroundColor3 = getgenv().echo_config.theme_colour}
+							{BackgroundColor3 = getgenv().echo_config.info_config.theme_colour}
 						):Play()
 						TweenService:Create(
 							v.ServerCorner,
@@ -1372,7 +1372,7 @@ function library:Window(text)
 			TweenService:Create(
 				Server,
 				TweenInfo.new(.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
-				{BackgroundColor3 = getgenv().echo_config.theme_colour}
+				{BackgroundColor3 = getgenv().echo_config.info_config.theme_colour}
 			):Play()
 			TweenService:Create(
 				ServerBtnCorner,
@@ -1522,7 +1522,7 @@ function library:Window(text)
 
 				Button.Name = 'Button'
 				Button.Parent = ChannelHolder
-				Button.BackgroundColor3 = getgenv().echo_config.theme_colour
+				Button.BackgroundColor3 = getgenv().echo_config.info_config.theme_colour
 				Button.Size = UDim2.new(0, 401, 0, 30)
 				Button.AutoButtonColor = false
 				Button.Font = Enum.Font.Gotham
@@ -1539,7 +1539,7 @@ function library:Window(text)
 				    if force_lock == true or locked == true then
 				        return
 				    end
-					TweenService:Create(Button, TweenInfo.new(.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {BackgroundColor3 = library:darken(getgenv().echo_config.theme_colour, .2)}):Play()
+					TweenService:Create(Button, TweenInfo.new(.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {BackgroundColor3 = library:darken(getgenv().echo_config.info_config.theme_colour, .2)}):Play()
 				end)
 				
 				Button.MouseButton1Click:Connect(function()
@@ -1555,7 +1555,7 @@ function library:Window(text)
 				    if force_lock == true or locked == true then
 				        return
 				    end
-					TweenService:Create(Button, TweenInfo.new(.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {BackgroundColor3 = getgenv().echo_config.theme_colour}):Play()
+					TweenService:Create(Button, TweenInfo.new(.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {BackgroundColor3 = getgenv().echo_config.info_config.theme_colour}):Play()
 				end)
 				ChannelHolder.CanvasSize = UDim2.new(0,0,0,ChannelHolderLayout.AbsoluteContentSize.Y)
 				
@@ -1579,7 +1579,7 @@ function library:Window(text)
 				    if state == true then
 				        TweenService:Create(Button, TweenInfo.new(.25), {BackgroundColor3 = Color3.fromRGB(41, 43, 47)}):Play()
 				    else
-				        TweenService:Create(Button, TweenInfo.new(.25), {BackgroundColor3 = getgenv().echo_config.theme_colour}):Play()
+				        TweenService:Create(Button, TweenInfo.new(.25), {BackgroundColor3 = getgenv().echo_config.info_config.theme_colour}):Play()
 				    end
 				    
 				    if force then
@@ -1861,7 +1861,7 @@ function library:Window(text)
 
 				CurrentValueFrame.Name = 'CurrentValueFrame'
 				CurrentValueFrame.Parent = SliderFrame
-				CurrentValueFrame.BackgroundColor3 = getgenv().echo_config.theme_colour
+				CurrentValueFrame.BackgroundColor3 = getgenv().echo_config.info_config.theme_colour
 				CurrentValueFrame.Size = UDim2.new((start or 0) / max, 0, 0, 8)
 				table.insert(return_table.theme_table, {CurrentValueFrame, 'BackgroundColor3'})
 
@@ -2798,7 +2798,7 @@ function library:Window(text)
 				TextBox.ClearTextOnFocus = disapper
 				
 				TextBox.Focused:Connect(function()
-					TweenService:Create(TextboxFrameOutline, TweenInfo.new(.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {BackgroundColor3 = getgenv().echo_config.theme_colour}):Play()
+					TweenService:Create(TextboxFrameOutline, TweenInfo.new(.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {BackgroundColor3 = getgenv().echo_config.info_config.theme_colour}):Play()
 				end)
 				
 				TextBox.FocusLost:Connect(function(ep)
@@ -2956,7 +2956,7 @@ function library:Window(text)
                 
 				Keybind.Name = 'Keybind'
 				Keybind.Parent = ChannelHolder
-				Keybind.BackgroundColor3 = getgenv().echo_config.theme_colour
+				Keybind.BackgroundColor3 = getgenv().echo_config.info_config.theme_colour
 				Keybind.BorderSizePixel = 0
 				Keybind.Position = UDim2.new(0.261979163, 0, 0.190789461, 0)
 				Keybind.Size = UDim2.new(0, 401, 0, 30)
@@ -2986,7 +2986,7 @@ function library:Window(text)
 
 				KeybindText.Name = 'KeybindText'
 				KeybindText.Parent = Keybind
-				KeybindText.BackgroundColor3 = getgenv().echo_config.theme_colour
+				KeybindText.BackgroundColor3 = getgenv().echo_config.info_config.theme_colour
 				KeybindText.BackgroundTransparency = 0
 				KeybindText.Position = UDim2.new(0, 300, 0, 5)
 				KeybindText.Size = UDim2.new(0, 85, 0, 20)
@@ -3002,7 +3002,7 @@ function library:Window(text)
 				LabelCorner.Parent = KeybindText
 				
 				Keybind.MouseEnter:Connect(function()
-					TweenService:Create(KeybindText, TweenInfo.new(.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {BackgroundColor3 = library:darken(getgenv().echo_config.theme_colour, .2)}):Play()
+					TweenService:Create(KeybindText, TweenInfo.new(.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {BackgroundColor3 = library:darken(getgenv().echo_config.info_config.theme_colour, .2)}):Play()
 				end)
 				
 				
