@@ -1,0 +1,437 @@
+if getgenv().aiming then
+    return getgenv().aiming
+end
+
+-- // Services
+local Players = game:GetService('Players')
+local Workspace = game:GetService('Workspace')
+local GuiService = game:GetService('GuiService')
+local RunService = game:GetService('RunService')
+
+-- // Vars
+local Heartbeat = RunService.Heartbeat
+local lplayer = Players.LocalPlayer
+local CurrentCamera = Workspace.CurrentCamera
+local mouse = lplayer:GetMouse()
+
+-- // Optimisation Vars (ugly)
+local Drawingnew = Drawing.new
+local Color3fromRGB = Color3.fromRGB
+local Vector2.new = Vector2.new
+local GetGuiInset = GuiService.GetGuiInset
+local Randomnew = Random.new
+local mathfloor = math.floor
+local CharacterAdded = lplayer.CharacterAdded
+local CharacterAddedWait = CharacterAdded.Wait
+local WorldToViewportPoint = CurrentCamera.WorldToViewportPoint
+local RaycastParamsnew = RaycastParams.new
+local EnumRaycastFilterTypeBlacklist = Enum.RaycastFilterType.Blacklist
+local Raycast = Workspace.Raycast
+local IsDescendantOf = Instance.new('Part').IsDescendantOf
+local FindFirstChildWhichIsA = Instance.new('Part').FindFirstChildWhichIsA
+local FindFirstChild = Instance.new('Part').FindFirstChild
+
+-- // Silent Aim Vars
+getgenv().aiming = {
+    enabled = true,
+
+    fov_show = false,
+    transparency = 0,
+    radius = 119,
+    sides = 300,
+    color = Color3fromRGB(255, 0, 0),
+
+    VisibleCheck = true,
+    
+    HitChance = 100,
+
+    selected = nil,
+    hit_part = nil,
+
+    target_part = {'Head', 'HumanoidRootPart'},
+
+    Ignored = {
+        teams = {
+            {
+                team = lplayer.Team,
+                teamColor = lplayer.TeamColor,
+            },
+        },
+        Players = {
+            lplayer,
+        }
+    }
+}
+local aiming = getgenv().aiming
+
+-- // Create circle
+local circle = Drawingnew('Circle')
+circle.Transparency = 1
+circle.Thickness = 2
+circle.Color = aiming.color
+circle.Filled = false
+aiming.FOVCircle = circle
+
+-- // Update
+function aiming.update()
+    -- // Make sure the circle exists
+    if not (circle) then
+        return
+    end
+
+    -- // Set Circle Properties
+    circle.Visible = aiming.fov_show
+    circle.Radius = (aiming.radius * 3)
+    circle.Position = Vector2.new(mouse.X, mouse.Y + GetGuiInset(GuiService).Y)
+    circle.NumSides = aiming.sides
+    circle.Color = aiming.color
+    circle.Transparency = aiming.transparency
+
+    -- // Return circle
+    return circle
+end
+
+-- // Custom Functions
+local CalcChance = function(percentage)
+    -- // Floor the percentage
+    percentage = mathfloor(percentage)
+
+    -- // Get the chance
+    local chance = mathfloor(Randomnew().NextNumber(Randomnew(), 0, 1) * 100) / 100
+
+    -- // Return
+    return chance <= percentage / 100
+end
+
+-- // Customisable Checking Functions: Is a part visible
+function aiming.part_visible(Part, PartDescendant)
+    -- // Vars
+    local Character = lplayer.Character or CharacterAddedWait(CharacterAdded)
+    local Origin = CurrentCamera.CFrame.Position
+    local _, OnScreen = WorldToViewportPoint(CurrentCamera, Part.Position)
+
+    -- //
+    if (OnScreen) then
+        -- // Vars
+        local raycastParams = RaycastParamsnew()
+        raycastParams.FilterType = EnumRaycastFilterTypeBlacklist
+        raycastParams.FilterDescendantsInstances = {Character, CurrentCamera}
+
+        -- // Cast ray
+        local Result = Raycast(Workspace, Origin, Part.Position - Origin, raycastParams)
+
+        -- // Make sure we get a result
+        if (Result) then
+            -- // Vars
+            local PartHit = Result.Instance
+            local Visible = (not PartHit or IsDescendantOf(PartHit, PartDescendant))
+
+            -- // Return
+            return Visible
+        end
+    end
+
+    -- // Return
+    return false
+end
+
+-- // Ignore player
+function aiming.IgnorePlayer(Player)
+    -- // Vars
+    local Ignored = aiming.Ignored
+    local IgnoredPlayers = Ignored.Players
+
+    -- // Find player in table
+    for _, IgnoredPlayer in ipairs(IgnoredPlayers) do
+        -- // Make sure player matches
+        if (IgnoredPlayer == Player) then
+            return false
+        end
+    end
+
+    -- // Blacklist player
+    table.insert(IgnoredPlayers, Player)
+    return true
+end
+
+-- // Unignore Player
+function aiming.UnIgnorePlayer(Player)
+    -- // Vars
+    local Ignored = aiming.Ignored
+    local IgnoredPlayers = Ignored.Players
+
+    -- // Find player in table
+    for i, IgnoredPlayer in ipairs(IgnoredPlayers) do
+        -- // Make sure player matches
+        if (IgnoredPlayer == Player) then
+            -- // Remove from ignored
+            table.remove(IgnoredPlayers, i)
+            return true
+        end
+    end
+
+    -- //
+    return false
+end
+
+-- // Ignore team
+function aiming.Ignoreteam(team, teamColor)
+    -- // Vars
+    local Ignored = aiming.Ignored
+    local Ignoredteams = Ignored.teams
+
+    -- // Find team in table
+    for _, Ignoredteam in ipairs(Ignoredteams) do
+        -- // Make sure team matches
+        if (Ignoredteam.team == team and Ignoredteam.teamColor == teamColor) then
+            return false
+        end
+    end
+
+    -- // Ignore team
+    table.insert(Ignoredteams, {team, teamColor})
+    return true
+end
+
+-- // Unignore team
+function aiming.UnIgnoreteam(team, teamColor)
+    -- // Vars
+    local Ignored = aiming.Ignored
+    local Ignoredteams = Ignored.teams
+
+    -- // Find team in table
+    for i, Ignoredteam in ipairs(Ignoredteams) do
+        -- // Make sure team matches
+        if (Ignoredteam.team == team and Ignoredteam.teamColor == teamColor) then
+            -- // Remove
+            table.remove(Ignoredteams, i)
+            return true
+        end
+    end
+
+    -- // Return
+    return false
+end
+
+-- //  Toggle team check
+function aiming.team_check(Toggle)
+    if (Toggle) then
+        return aiming.Ignoreteam(lplayer.Team, lplayer.TeamColor)
+    end
+
+    return aiming.UnIgnoreteam(lplayer.Team, lplayer.TeamColor)
+end
+
+-- // Check teams
+function aiming.IsIgnoredteam(Player)
+    -- // Vars
+    local Ignored = aiming.Ignored
+    local Ignoredteams = Ignored.teams
+
+    -- // Check if team is ignored
+    for _, Ignoredteam in ipairs(Ignoredteams) do
+        -- // Make sure team matches
+        if (Player.team == Ignoredteam.team and Player.teamColor == Ignoredteam.teamColor) then
+            return true
+        end
+    end
+
+    -- // Return
+    return false
+end
+
+-- // Check if player (and team) is ignored
+function aiming.IsIgnored(Player)
+    -- // Vars
+    local Ignored = aiming.Ignored
+    local IgnoredPlayers = Ignored.Players
+
+    -- // Loop
+    for _, IgnoredPlayer in ipairs(IgnoredPlayers) do
+        -- // Check if Player Id
+        if (typeof(IgnoredPlayer) == 'number' and Player.UserId == IgnoredPlayer) then
+            return true
+        end
+
+        -- // Normal Player Instance
+        if (IgnoredPlayer == Player) then
+            return true
+        end
+    end
+
+    -- // team check
+    return aiming.IsIgnoredteam(Player)
+end
+
+-- // Get the Direction, Normal and Material
+function aiming.Raycast(Origin, Destination, UnitMultiplier)
+    if (typeof(Origin) == 'Vector3' and typeof(Destination) == 'Vector3') then
+        -- // Handling
+        if (not UnitMultiplier) then UnitMultiplier = 1 end
+
+        -- // Vars
+        local Direction = (Destination - Origin).Unit * UnitMultiplier
+        local Result = Raycast(Workspace, Origin, Direction)
+
+        -- // Make sure we have a result
+        if (Result) then
+            local Normal = Result.Normal
+            local Material = Result.Material
+
+            return Direction, Normal, Material
+        end
+    end
+
+    -- // Return
+    return nil
+end
+
+-- // Get Character
+function aiming.Character(Player)
+    return Player.Character
+end
+
+-- // Check Health
+function aiming.request_health(Player)
+    -- // Get Humanoid
+    local Character = aiming.Character(Player)
+    local Humanoid = FindFirstChildWhichIsA(Character, 'Humanoid')
+
+    -- // Get Health
+    local Health = (Humanoid and Humanoid.Health or 0)
+
+    -- //
+    return Health > 0
+end
+
+-- // Check if silent aim can used
+function aiming.Check()
+    return (aiming.enabled == true and aiming.selected ~= lplayer and aiming.hit_part ~= nil)
+end
+aiming.checkSilentAim = aiming.Check
+
+-- // Get Closest Target Part
+function aiming.GetClosestTargetPartToCursor(Character)
+    local TargetParts = aiming.target_part
+
+    -- // Vars
+    local closest_part = nil
+    local closest_part_pos = nil
+    local closest_part_screen = false
+    local nearest_part_mouse = nil
+    local min_distance = 1/0
+
+    -- //
+    local function check_part(target_part)
+        -- // Convert string -> Instance
+        if (typeof(target_part) == 'string') then
+            target_part = FindFirstChild(Character, target_part)
+        end
+
+        -- // Make sure we have a target
+        if not (target_part) then
+            return
+        end
+
+        -- // Get the length between mouse and Target Part (on screen)
+        local part_pos, onScreen = WorldToViewportPoint(CurrentCamera, target_part.Position)
+        local GuiInset = GetGuiInset(GuiService)
+        local magnitude = (Vector2.new(part_pos.X, part_pos.Y - GuiInset.Y) - Vector2.new(mouse.X, mouse.Y)).magnitude
+
+        -- //
+        if (magnitude < min_distance) then
+            closest_part = target_part
+            closest_part_pos = part_pos
+            closest_part_screen = onScreen
+            nearest_part_mouse = magnitude
+            min_distance = magnitude
+        end
+    end
+
+    -- // String check
+    if (typeof(TargetParts) == 'string') then
+        -- // Check if it all
+        if (TargetParts == 'All') then
+            -- // Loop through character children
+            for _, v in ipairs(Character:GetChildren()) do
+                -- // See if it a part
+                if not (v:IsA('BasePart')) then
+                    continue
+                end
+
+                -- // Check it
+                check_part(v)
+            end
+        else
+            -- // Individual
+            check_part(TargetParts)
+        end
+    end
+
+    -- //
+    if (typeof(TargetParts) == 'table') then
+        -- // Loop through all target parts and check them
+        for _, TargetPartName in ipairs(TargetParts) do
+            check_part(TargetPartName)
+        end
+    end
+
+    -- //
+    return closest_part, closest_part_pos, closest_part_screen, nearest_part_mouse
+end
+
+-- // Silent Aim Function
+function aiming.request_closest()
+    -- // Vars
+    local target_part = nil
+    local closest_player = nil
+    local Chance = CalcChance(aiming.HitChance)
+    local min_distance = 1/0
+
+    -- // Chance
+    if (not Chance) then
+        aiming.selected = lplayer
+        aiming.hit_part = nil
+
+        return lplayer
+    end
+
+    -- // Loop through all players
+    for _, Player in ipairs(game.Players:GetPlayers()) do
+        -- // Get Character
+        local Character = aiming.Character(Player)
+
+        -- // Make sure isn't ignored and Character exists
+        if (aiming.IsIgnored(Player) == false and Character) then
+            -- // Vars
+            local temp_target, _, _, magnitude = aiming.GetClosestTargetPartToCursor(Character)
+
+            -- // Check if part exists and health
+            if (temp_target and aiming.request_health(Player)) then
+                -- // Check if is in radius
+                if (circle.Radius > magnitude and magnitude < min_distance) then
+                    -- // Check if Visible
+                    if (aiming.VisibleCheck and not aiming.part_visible(temp_target, Character)) then continue end
+
+                    -- // Set vars
+                    closest_player = Player
+                    min_distance = magnitude
+                    target_part = temp_target
+                end
+            end
+        end
+    end
+
+    -- // End
+    aiming.selected = closest_player
+    aiming.hit_part = target_part
+end
+
+-- // Heartbeat Function
+Heartbeat:Connect(function()
+    aiming.update()
+    aiming.request_closest()
+end)
+
+-- //
+return aiming
