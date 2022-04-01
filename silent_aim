@@ -17,7 +17,6 @@ local mouse = lplayer:GetMouse()
 -- // Optimisation Vars (ugly)
 local Drawingnew = Drawing.new
 local Color3fromRGB = Color3.fromRGB
-local Vector2.new = Vector2.new
 local GetGuiInset = GuiService.GetGuiInset
 local Randomnew = Random.new
 local mathfloor = math.floor
